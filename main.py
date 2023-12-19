@@ -11,7 +11,6 @@ from commands import (
 )
 from address_book import AddressBook
 
-
 MENU = """
 MENU:
     # menu - show menu
