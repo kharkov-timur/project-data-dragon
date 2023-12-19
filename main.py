@@ -1,10 +1,10 @@
 from commands import (
     add_contact,
     change_contact,
-    show_phone,
+    find_phone,
     show_all,
     add_birthday,
-    show_birthday,
+    find_birthday,
     birthdays,
     save_contacts,
     load_contacts,
@@ -14,18 +14,17 @@ from address_book import AddressBook
 
 MENU = """
 MENU:
-# hello : show hello message
-# add [name] [phone] [birthday(optional)]: add new Contact
-# change [name] [phone]: change Contact number
-# phone [name]: show contact phone
-# all: show all contacts
-# add-birthday [name] [birthday]: add birthday to contact
-# show-birthday [name]: show birthday of contact
-# birthdays: show upcoming birthdays
-# menu: show menu
-# save-contacts: save all contacts
-# load-contacts: load all contacts
-# exit|close: exit from program
+    # menu - show menu
+    # add-contact - [name] [phone] [birthday(optional)] - add new contact
+    # change-contact - [name] [phone] - change contact number
+    # find-phone - [name] - show contact phone
+    # all-contacts - show all contacts
+    # add-birthday - [name] [birthday] - add birthday to contact
+    # find-birthday - [name] - show birthday of contact
+    # birthdays - show upcoming birthdays
+    # save-contacts - save all contacts
+    # load-contacts - load all contacts
+    # exit/close - exit from program
 """
 
 
@@ -37,7 +36,7 @@ def parse_input(user_input):
 
 def main():
     book = AddressBook()
-    print("Welcome to the assistant bot!")
+    print("\nWelcome to the PERSONAL CONTACT HELPER!")
     print(MENU)
 
     while True:
@@ -48,29 +47,26 @@ def main():
             print("Good bye!")
             break
 
-        elif command == "hello":
-            print("How can I help you?")
-
         elif command == "menu":
             print(MENU)
 
-        elif command == "add":
+        elif command == "add-contact":
             print(add_contact(args, book))
 
-        elif command == "change":
+        elif command == "change-contact":
             print(change_contact(args, book))
 
-        elif command == "phone":
-            print(show_phone(args, book))
+        elif command == "find-phone":
+            print(find_phone(args, book))
 
-        elif command == "all":
+        elif command == "all-contacts":
             print(show_all(book))
 
         elif command == "add-birthday":
             print(add_birthday(args, book))
 
-        elif command == "show-birthday":
-            print(show_birthday(args, book))
+        elif command == "find-birthday":
+            print(find_birthday(args, book))
 
         elif command == "birthdays":
             print(birthdays(book))

@@ -43,7 +43,7 @@ def change_contact(args, book):
 
 
 @input_error
-def show_phone(args, book):
+def find_phone(args, book):
     if len(args) != 1:
         raise ValueError("Phone command expects 1 argument: name.")
     (name,) = args
@@ -77,7 +77,7 @@ def add_birthday(args, book):
 
 
 @input_error
-def show_birthday(args, book):
+def find_birthday(args, book):
     if len(args) != 1:
         raise ValueError("Show-birthday command expects 1 argument: name.")
     (name,) = args
