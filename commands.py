@@ -113,3 +113,24 @@ def load_contacts(book):
         book.data = restored_data.data
 
         return f"Restored {len(book.data)} contacts from archive"
+@input_error
+def add_address(args,book):
+    if len(args) != 2:
+        raise ValueError("Add-address command expects 2 arguments: name and address.")
+    name, address = args
+    record = book.find(name)
+    record.add_address(address)
+    return f'Added address: {address}'
+@input_error
+def change_address(args, book):
+    if len(args) != 2:
+        raise ValueError("Change-address command expects 2 arguments: name and new address.")
+    name, new_address = args
+    record = book.find(name)
+    if not record:
+        raise ValueError("Contact not found.")
+    
+    old_address = record.address.value if record.address else " Unknowed data of address."
+    record.add_address(new_address)
+    
+    return f"Address updated for {name}.Old address: {old_address} new address: {new_address}"

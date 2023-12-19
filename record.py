@@ -1,4 +1,4 @@
-from fields import Name, Phone, Birthday
+from fields import Name, Phone, Birthday,Address
 from copy import deepcopy
 
 
@@ -7,6 +7,7 @@ class Record:
         self.name = Name(name)
         self.phones = []
         self.birthday = None
+        self.address = None 
 
     def add_phone(self, phone):
         new_phone = Phone(phone)
@@ -44,11 +45,23 @@ class Record:
     def __str__(self):
         phones_str = "; ".join(str(p) for p in self.phones)
         birthday_str = f", Birthday: {self.birthday}" if self.birthday else ""
-        return f"Contact name: {self.name.value}, Phones: {phones_str}{birthday_str}"
+        address_str = f", Address: {self.address}" if self.address else ""
+        return f"Contact name: {self.name.value}, Phones: {phones_str}{birthday_str}{address_str}"
 
     def get_name(self):
         return self.name.value
+    
+    def add_address(self, address):
+        self.address = Address(address)
+        return f"Adress added for {self.name.value}."
+    
+    def change_address(self, new_address):
+        if not self.address:
+            return f"Address for {self.name.value} didn't find,first please add address"
 
+        old_address = self.address.value
+        self.address.value = new_address
+        return f'Adress changed for {self.name.value} from address: {old_address} to new_address: {self.address.value}'              
     def __deepcopy__(self, memo):
         copy_object = Record()
         memo[id(copy_object)] = copy_object

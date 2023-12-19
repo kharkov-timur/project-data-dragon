@@ -8,6 +8,8 @@ from commands import (
     birthdays,
     save_contacts,
     load_contacts,
+    add_address,
+    change_address
 )
 from address_book import AddressBook
 
@@ -15,7 +17,7 @@ from address_book import AddressBook
 MENU = """
 MENU:
 # hello : show hello message
-# add [name] [phone] [birthday(optional)]: add new Contact
+# add [name] [phone] [birthday(optional)] ]: add new Contact
 # change [name] [phone]: change Contact number
 # phone [name]: show contact phone
 # all: show all contacts
@@ -25,6 +27,8 @@ MENU:
 # menu: show menu
 # save-contacts: save all contacts
 # load-contacts: load all contacts
+# add-address [name] [address]: add address for contact
+# change-address [name] [address]: change address of contact 
 # exit|close: exit from program
 """
 
@@ -80,7 +84,10 @@ def main():
 
         elif command == "load-contacts":
             print(load_contacts(book))
-
+        elif command == 'add-address':
+            print(add_address(args, book))
+        elif command == 'change-address':
+            print(change_address(args,book))
         else:
             print("Invalid command.")
 
