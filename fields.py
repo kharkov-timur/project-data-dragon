@@ -39,3 +39,7 @@ class Phone(Field):
         if len(value) != 10:
             raise ValueError("Phone length should be exactly 10 symbols")
         super().__init__(value)
+        
+class Address(Field):
+    def __init__(self, value):
+        super().__init__(value)
