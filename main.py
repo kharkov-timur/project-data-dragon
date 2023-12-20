@@ -10,6 +10,8 @@ from commands import (
     save_contacts,
     load_contacts,
     set_email,
+    add_address,
+    change_address
 )
 from address_book import AddressBook
 
@@ -29,6 +31,8 @@ MENU:
     # change-email - [name] [email]  - change contact email
     # save-contacts - save all contacts
     # load-contacts - load all contacts
+    # add-address [name] [address]: add address for contact
+	# change-address [name] [address]: change address of contact
     # exit/close - exit from program
 """
 
@@ -95,6 +99,12 @@ def main():
         elif command == "change-email":
             print(set_email(args, book))
             
+        elif command == 'add-address':
+            print(add_address(args, book))
+            
+        elif command == 'change-address':
+	        print(change_address(args,book))
+        
         else:
             print("Invalid command.")
 
