@@ -7,6 +7,7 @@ class Record:
         self.name = Name(name)
         self.phones = []
         self.birthday = None
+        self.email = None
 
     def add_phone(self, name, phone):
         new_phone = Phone(phone)
@@ -46,11 +47,18 @@ class Record:
         if index == -1:
             raise ValueError(f"Phone number {phone} not found in this contact")
         del self.phones[index]
+        
+    def set_email(self, email):
+        self.email = email
+        
+    def get_email(self):
+        return self.email
 
     def __str__(self):
         phones_str = "; ".join(str(p) for p in self.phones)
         birthday_str = f", Birthday: {self.birthday}" if self.birthday else ""
-        return f"Contact name: {self.name.value}, Phones: {phones_str}{birthday_str}"
+        email_str = f", Email: {self.email}" if self.email else ""
+        return f"Contact name: {self.name.value}, Phones: {phones_str}{birthday_str}{email_str}"
 
     def get_name(self):
         return self.name.value
@@ -61,4 +69,5 @@ class Record:
         copy_object.name = deepcopy(self.name, memo)
         copy_object.phones = deepcopy(self.phones, memo)
         copy_object.birthday = deepcopy(self.birthday, memo)
+        copy_object.email = deepcopy(self.email, memo)
         return copy_object
