@@ -11,7 +11,7 @@ from commands import (
     load_contacts,
     set_email,
     add_address,
-    change_address
+    change_address,
 )
 from address_book import AddressBook
 
@@ -92,19 +92,19 @@ def main():
 
         elif command == "load-contacts":
             print(load_contacts(book))
-            
+
         elif command == "add-email":
             print(set_email(args, book))
-            
+
         elif command == "change-email":
             print(set_email(args, book))
-            
-        elif command == 'add-address':
+
+        elif command == "add-address":
             print(add_address(args, book))
-            
-        elif command == 'change-address':
-	        print(change_address(args,book))
-        
+
+        elif command == "change-address":
+            print(change_address(args, book))
+
         else:
             print("Invalid command.")
 

@@ -8,7 +8,7 @@ class Record:
         self.phones = []
         self.birthday = None
         self.email = None
-        self.address = None 
+        self.address = None
 
     def add_phone(self, name, phone):
         new_phone = Phone(phone)
@@ -48,10 +48,10 @@ class Record:
         if index == -1:
             raise ValueError(f"Phone number {phone} not found in this contact")
         del self.phones[index]
-        
+
     def set_email(self, email):
         self.email = email
-        
+
     def get_email(self):
         return self.email
 
@@ -64,19 +64,19 @@ class Record:
 
     def get_name(self):
         return self.name.value
-    
+
     def add_address(self, address):
         self.address = Address(address)
         return f"Address added for {self.name.value}."
-    
+
     def change_address(self, new_address):
         if not self.address:
             return f"Address for {self.name.value} didn't find,first please add address"
 
         old_address = self.address.value
         self.address.value = new_address
-        return f'Address changed for {self.name.value} from address: {old_address} to new_address: {self.address.value}'
-    
+        return f"Address changed for {self.name.value} from address: {old_address} to new_address: {self.address.value}"
+
     def __deepcopy__(self, memo):
         copy_object = Record()
         memo[id(copy_object)] = copy_object
