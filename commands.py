@@ -118,7 +118,7 @@ def load_contacts(book):
 @input_error
 def set_email(args, book):
     if len(args) != 2:
-        raise ValueError("current command expects 2 arguments: name and email")
+        raise ValueError("Current command expects 2 arguments: name and email")
     name, email = args
     if not re.fullmatch(r"^\S+@\S+\.\S+$", email):
         raise ValueError("Please enter valid email")
