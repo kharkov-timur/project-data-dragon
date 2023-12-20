@@ -1,6 +1,7 @@
 from commands import (
     add_contact,
     change_contact,
+    remove_contact,
     find_phone,
     show_all,
     add_birthday,
@@ -17,6 +18,7 @@ MENU:
     # menu - show menu
     # add-contact - [name] [phone] [birthday(optional)] - add new contact
     # change-contact - [name] [phone] - change contact number
+    # remove-contact - [name] [position] - change contact number
     # find-phone - [name] - show contact phone
     # all-contacts - show all contacts
     # add-birthday - [name] [birthday] - add birthday to contact
@@ -41,6 +43,10 @@ def main():
 
     while True:
         user_input = input("Enter a command: ")
+
+        if len(user_input) == 0:
+            continue
+
         command, args = parse_input(user_input)
 
         if command in ["close", "exit"]:
@@ -54,7 +60,10 @@ def main():
             print(add_contact(args, book))
 
         elif command == "change-contact":
-            print(change_contact(args, book))
+            print(change_contact(book))
+
+        elif command == "remove-contact":
+            print(remove_contact(args, book))
 
         elif command == "find-phone":
             print(find_phone(args, book))

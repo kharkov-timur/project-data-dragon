@@ -8,11 +8,17 @@ class Record:
         self.phones = []
         self.birthday = None
 
-    def add_phone(self, phone):
+    def add_phone(self, name, phone):
         new_phone = Phone(phone)
-        if new_phone in self.phones:
-            raise ValueError("Phone number already exists in this contact")
+
+        existed_phone = self.find_phone_index(new_phone)
+
+        if existed_phone != -1:
+            raise ValueError(f"Phone number {phone} already exists in {name} contact")
         self.phones.append(new_phone)
+
+    def phones_list(self):
+        return self.phones
 
     def find_phone(self, phone):
         for p in self.phones:
@@ -25,7 +31,7 @@ class Record:
 
     def find_phone_index(self, phone):
         for index, p in enumerate(self.phones):
-            if p.value == phone:
+            if str(p.value).strip() == str(phone).strip():
                 return index
         return -1
 

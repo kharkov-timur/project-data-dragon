@@ -18,28 +18,89 @@ def add_contact(args, book):
         raise ValueError(
             "Add command expects 2 or 3 arguments: name, phone, and optionally birthday."
         )
+
     name, phone = args[:2]
-    record = Record(name)
-    record.add_phone(phone)
+    existing_record = book.find(name)
 
-    if len(args) == 3:
-        birthday = args[2]
-        record.add_birthday(birthday)
+    if existing_record:
+        existing_record.add_phone(name, phone)
+        return f"Phone number {phone} added to {name} contact."
+    else:
+        record = Record(name)
+        record.add_phone(name, phone)
 
-    book.add_record(record)
-    return "Contact added."
+        if len(args) == 3:
+            birthday = args[2]
+            record.add_birthday(birthday)
+
+        book.add_record(record)
+        return "Contact added."
 
 
 @input_error
-def change_contact(args, book):
-    if len(args) != 2:
-        raise ValueError("Change command expects 2 arguments: name and phone.")
-    name, new_phone = args
+def change_contact(book):
+    name = input("Enter the contact name: ")
     record = book.find(name)
+
     if not record:
         raise ValueError("Contact not found.")
-    record.edit_phone(record.phones[0].value, new_phone)
-    return "Contact updated."
+
+    phones = record.phones_list()
+    if not phones:
+        return "No phone numbers available for change."
+
+    print(f"Phone numbers:")
+    for idx, phone in enumerate(phones, start=1):
+        print(f"{idx}. {phone.value}")
+
+    while True:
+        try:
+            position = int(input("Enter the position of the phone number to change: "))
+            if position < 1 or position > len(phones):
+                print("Invalid position, please try again.")
+                continue
+
+            new_phone = input("Enter the new phone number: ")
+            record.edit_phone(phones[position - 1].value, new_phone)
+            return "Contact updated."
+        except ValueError:
+            print("Invalid input, please enter a valid number.")
+        except IndexError:
+            print("Invalid position, please try again.")
+
+
+@input_error
+def remove_contact(args, book):
+    if len(args) != 1:
+        raise ValueError("Remove command expects argument name.")
+
+    name = args[0]
+    record = book.find(name)
+
+    if not record:
+        raise ValueError("Contact not found.")
+
+    phones = record.phones_list()
+    if not phones:
+        return "No phone numbers to remove."
+
+    print(f"Phone numbers:")
+    for idx, phone in enumerate(phones, start=1):
+        print(f"{idx}. {phone.value}")
+
+    while True:
+        try:
+            position = int(input("Enter position of phone number to remove: "))
+            if position < 1 or position > len(phones):
+                print("Invalid position.")
+                continue
+
+            record.remove_phone(phones[position - 1].value)
+            return "Contact updated."
+        except ValueError:
+            print("Please enter a valid number.")
+        except IndexError:
+            print("Invalid position.")
 
 
 @input_error
@@ -56,12 +117,9 @@ def find_phone(args, book):
 
 @input_error
 def show_all(book):
-    all_records = ""
     if len(book) == 0:
         return "There are no contacts in the list."
-    for name, record in book.items():
-        all_records += f"{record}\n"
-    return all_records
+    return "\n".join(str(record) for record in book.data.values())
 
 
 @input_error
