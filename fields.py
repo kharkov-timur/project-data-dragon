@@ -1,5 +1,6 @@
 from datetime import datetime
 from copy import deepcopy
+import re
 
 
 class Field:
@@ -36,6 +37,6 @@ class Name(Field):
 
 class Phone(Field):
     def __init__(self, value):
-        if len(value) != 10:
-            raise ValueError("Phone length should be exactly 10 symbols")
+        if not re.fullmatch(r"\d{10}", value):
+            raise ValueError("Phone length should be exactly 10 digit symbols")
         super().__init__(value)
