@@ -41,7 +41,7 @@ def change_note_text(title:str, new_text:str, notes:NotesBook):
     tags = old_note.get_tags()
     notes.remove(title)
     notes.add_record(Note(title, new_text, tags))
-    return f"Text for title {title} changed from {old_text} to {new_text}"
+    return f"Text for {title} changed from {old_text} to {new_text}"
     
 
 def add_note_tag(tag:str, title:str, notes:NotesBook):
@@ -49,7 +49,7 @@ def add_note_tag(tag:str, title:str, notes:NotesBook):
     old_text = old_note.get_text()
     tags = old_note.get_tags()
     if tag in tags:
-        return f"Tag {tag} already  added for {title}"
+        return f"Tag {tag} already added for {title}"
     else:
         tags.append(tag)
         notes.remove(title)

@@ -1,5 +1,4 @@
 from copy import deepcopy
-from datetime import timedelta
 
 
 class Note:
@@ -7,7 +6,6 @@ class Note:
         self.title = title
         self.description = description
         self.tags = tags
-        self.created = timedelta.today()
 
     def get_title(self,):
         return self.title 
