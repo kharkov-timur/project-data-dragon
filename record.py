@@ -67,15 +67,14 @@ class Record:
 
     def add_address(self, address):
         self.address = Address(address)
-        return f"Address added for {self.name.value}."
+        return f"Address: {self.address} added for contact: {self.name.value}."
+    def change_address(self,address):
 
-    def change_address(self, new_address):
-        if not self.address:
-            return f"Address for {self.name.value} didn't find,first please add address"
-
-        old_address = self.address.value
-        self.address.value = new_address
-        return f"Address changed for {self.name.value} from address: {old_address} to new_address: {self.address.value}"
+        old_address = self.address
+        if old_address is None:
+            raise ' You don\'t have any address for this contact. First, please add address for this contact.'
+        self.address = address
+        return f'Adress changed for {self.name.value} from address: {old_address} to new_address: {self.address.value}'
 
     def __deepcopy__(self, memo):
         copy_object = Record()
