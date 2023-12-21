@@ -204,22 +204,25 @@ def change_address(args, book):
 
 
 @input_error
-def add_tag(args,book): 
+def add_tag(args, book):
     if len(args) != 2:
-        raise ValueError('Add-tag have to be with 2 argument: [name] [tag] ')
+        raise ValueError("Add-tag have to be with 2 argument: [name] [tag] ")
     name, tag = args
     record = book.find(name)
     record.add_tag(tag)
     return f'Added tag: "{tag}" for contact: {name}'
 
+
 @input_error
 def change_tag_by_name(args, book):
     if len(args) != 3:
-        raise ValueError("Change-tag command expects 3 arguments: name, old_tag, and new_tag.")
-    
+        raise ValueError(
+            "Change-tag command expects 3 arguments: name, old_tag, and new_tag."
+        )
+
     name, old_tag, new_tag = args
     record = book.find(name)
-    
+
     if record:
         try:
             record.edit_tag(old_tag, new_tag)
@@ -228,15 +231,18 @@ def change_tag_by_name(args, book):
             return f"Error: {e}"
     else:
         return f"Contact with name {name} not found."
-    
+
+
 @input_error
 def find_contacts_by_tag(args, book):
     try:
         if len(args) != 1:
             raise ValueError("Find-contacts-by-tag command expects 1 argument: tag.")
 
-        tag_to_find, = args
-        matching_contacts = [name for name, record in book.items() if tag_to_find in record.tag]
+        (tag_to_find,) = args
+        matching_contacts = [
+            name for name, record in book.items() if tag_to_find in record.tag
+        ]
 
         if matching_contacts:
             return f"Contacts with tag '{tag_to_find}': {', '.join(matching_contacts)}"
@@ -245,11 +251,12 @@ def find_contacts_by_tag(args, book):
     except Exception as e:
         return f"Error: {e}"
 
+
 @input_error
 def remove_tag(args, book):
     if len(args) != 2:
         raise ValueError("Remove-tag command expects 2 arguments: name and tag.")
-    
+
     name, removed_tag = args
     record = book.find(name)
 
@@ -261,7 +268,8 @@ def remove_tag(args, book):
             return f"Tag: '{removed_tag}' not found in contact: {name}"
     else:
         return f"Contact with name {name} not found."
-    
+
+
 @input_error
 def set_email(args, book):
     if len(args) != 2:

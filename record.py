@@ -61,8 +61,8 @@ class Record:
         birthday_str = f", Birthday: {self.birthday}" if self.birthday else ""
         email_str = f", Email: {self.email}" if self.email else ""
         address_str = f", Address: {self.address}" if self.address else ""
-        tag_from_list = ', '.join(str(t) for t in self.tag)
-        tag_str = f', Tags: {tag_from_list} 'if self.tag else ''
+        tag_from_list = ", ".join(str(t) for t in self.tag)
+        tag_str = f", Tags: {tag_from_list} " if self.tag else ""
         return f"Contact name: {self.name.value}, Phones: {phones_str}{birthday_str}{email_str}{address_str}{tag_str}"
 
     def get_name(self):
@@ -81,22 +81,22 @@ class Record:
         return f"Address changed for {self.name.value} from address: {old_address} to new_address: {self.address.value}"
 
     def add_tag(self, new_tag):
-        self.tag.append(new_tag) 
-    
+        self.tag.append(new_tag)
+
     def edit_tag(self, old_tag, new_tag):
         if old_tag in self.tag:
             index = self.tag.index(old_tag)
             self.tag[index] = new_tag
         else:
             raise ValueError(f"Tag {old_tag} not found in this contact")
-           
+
     def remove_tag_from_contact(self, removed_tag):
         if removed_tag in self.tag:
             self.tag.remove(removed_tag)
-            print(f'Removed tag: {removed_tag} from contact: {self.name}')
+            print(f"Removed tag: {removed_tag} from contact: {self.name}")
         else:
-            raise ValueError(f"Tag '{removed_tag}' not found in this contact.") 
-              
+            raise ValueError(f"Tag '{removed_tag}' not found in this contact.")
+
     def __deepcopy__(self, memo):
         copy_object = Record()
         memo[id(copy_object)] = copy_object
