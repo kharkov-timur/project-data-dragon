@@ -4,17 +4,12 @@ from copy import deepcopy
 
 class Record:
     def __init__(self, name):
-        if not isinstance(name, str):
-            raise TypeError("Name must be a string")
-        name = Name(name.strip())
-        if isinstance(name, Name) != True:
-            raise TypeError("Name must be an instance of Name class")
-            
-        self.name = name
+        self.name = Name(name)
         self.phones = []
         self.birthday = None
         self.email = None
         self.address = None
+        self.tag = []
 
     def add_phone(self, name, phone):
         new_phone = Phone(phone)
@@ -45,12 +40,14 @@ class Record:
 
     def edit_phone(self, old_phone, new_phone):
         index = self.find_phone_index(old_phone)
+
         if index == -1:
             raise ValueError(f"Phone number {old_phone} not found in this contact")
         self.phones[index] = Phone(new_phone)
 
     def remove_phone(self, phone):
         index = self.find_phone_index(phone)
+
         if index == -1:
             raise ValueError(f"Phone number {phone} not found in this contact")
         del self.phones[index]
@@ -66,21 +63,41 @@ class Record:
         birthday_str = f", Birthday: {self.birthday}" if self.birthday else ""
         email_str = f", Email: {self.email}" if self.email else ""
         address_str = f", Address: {self.address}" if self.address else ""
-        return f"Contact name: {self.name.value}, Phones: {phones_str}{birthday_str}{email_str}{address_str}"
+        tag_from_list = ", ".join(str(t) for t in self.tag)
+        tag_str = f", Tags: {tag_from_list} " if self.tag else ""
+        return f"Contact name: {self.name.value}, Phones: {phones_str}{birthday_str}{email_str}{address_str}{tag_str}"
 
     def get_name(self):
-        return self.name
+        return self.name.value
 
     def add_address(self, address):
         self.address = Address(address)
-        return f"Address: {self.address} added for contact: {self.name.value}."
-    def change_address(self,address):
+        return f"Address added for {self.name.value}."
 
-        old_address = self.address
-        if old_address is None:
-            raise ' You don\'t have any address for this contact. First, please add address for this contact.'
-        self.address = address
-        return f'Adress changed for {self.name.value} from address: {old_address} to new_address: {self.address.value}'
+    def change_address(self, new_address):
+        if not self.address:
+            return f"Address for {self.name.value} didn't find,first please add address"
+
+        old_address = self.address.value
+        self.address.value = new_address
+        return f"Address changed for {self.name.value} from address: {old_address} to new_address: {self.address.value}"
+
+    def add_tag(self, new_tag):
+        self.tag.append(new_tag)
+
+    def edit_tag(self, old_tag, new_tag):
+        if old_tag in self.tag:
+            index = self.tag.index(old_tag)
+            self.tag[index] = new_tag
+        else:
+            raise ValueError(f"Tag {old_tag} not found in this contact")
+
+    def remove_tag_from_contact(self, removed_tag):
+        if removed_tag in self.tag:
+            self.tag.remove(removed_tag)
+            print(f"Removed tag: {removed_tag} from contact: {self.name}")
+        else:
+            raise ValueError(f"Tag '{removed_tag}' not found in this contact.")
 
     def __deepcopy__(self, memo):
         copy_object = Record()

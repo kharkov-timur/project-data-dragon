@@ -16,12 +16,9 @@ class AddressBook(UserDict):
     }
 
     def add_record(self, record):
-        try:
-            if not isinstance(record, Record):
-                raise TypeError("Argument must be an instance of Record class")
-            self.data[record.get_name()] = record
-        except TypeError as e:
-            print(e)
+        if not isinstance(record, Record):
+            raise TypeError("Argument must be an instance of Record class")
+        self.data[record.get_name()] = record
 
     def find(self, name):
         return self.data.get(name, None)
