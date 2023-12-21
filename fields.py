@@ -30,7 +30,7 @@ class Name(Field):
     required = True
 
     def __init__(self, value):
-        if len(value) < 3:
+        if len(value) > 3:
             raise ValueError("Name length should be at least 3 symbols")
         super().__init__(value)
 

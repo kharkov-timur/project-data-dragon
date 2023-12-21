@@ -63,7 +63,7 @@ class Record:
         return f"Contact name: {self.name.value}, Phones: {phones_str}{birthday_str}{email_str}{address_str}"
 
     def get_name(self):
-        return self.name.value
+        return self.name
 
     def add_address(self, address):
         self.address = Address(address)
