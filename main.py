@@ -1,3 +1,5 @@
+from prompt_toolkit import prompt
+from autocomplete import command_completer
 from commands import (
     add_contact,
     change_contact,
@@ -31,8 +33,8 @@ MENU:
     # change-email - [name] [email]  - change contact email
     # save-contacts - save all contacts
     # load-contacts - load all contacts
-    # add-address [name] [address]: add address for contact
-	# change-address [name] [address]: change address of contact
+    # add-address [name] [address] - add address for contact
+    # change-address [name] [address] - change address of contact
     # exit/close - exit from program
 """
 
@@ -49,7 +51,7 @@ def main():
     print(MENU)
 
     while True:
-        user_input = input("Enter a command: ")
+        user_input = prompt("Enter command: ", completer=command_completer)
 
         if len(user_input) == 0:
             continue
