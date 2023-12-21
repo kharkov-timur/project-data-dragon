@@ -47,6 +47,7 @@ def change_contact(book):
         raise ValueError("Contact not found.")
 
     phones = record.phones_list()
+
     if not phones:
         return "No phone numbers available for change."
 
@@ -57,6 +58,7 @@ def change_contact(book):
     while True:
         try:
             position = int(input("Enter the position of the phone number to change: "))
+
             if position < 1 or position > len(phones):
                 print("Invalid position, please try again.")
                 continue
@@ -82,16 +84,19 @@ def remove_contact(args, book):
         raise ValueError("Contact not found.")
 
     phones = record.phones_list()
+
     if not phones:
         return "No phone numbers to remove."
 
     print(f"Phone numbers:")
+
     for idx, phone in enumerate(phones, start=1):
         print(f"{idx}. {phone.value}")
 
     while True:
         try:
             position = int(input("Enter position of phone number to remove: "))
+
             if position < 1 or position > len(phones):
                 print("Invalid position.")
                 continue
@@ -108,8 +113,10 @@ def remove_contact(args, book):
 def find_phone(args, book):
     if len(args) != 1:
         raise ValueError("Phone command expects 1 argument: name.")
+
     (name,) = args
     record = book.find(name)
+
     if record:
         return ", ".join(phone.value for phone in record.phones)
     else:
@@ -139,8 +146,10 @@ def add_birthday(args, book):
 def find_birthday(args, book):
     if len(args) != 1:
         raise ValueError("Show-birthday command expects 1 argument: name.")
+
     (name,) = args
     record = book.find(name)
+
     if record and record.birthday:
         return record.birthday.value
     else:
@@ -151,6 +160,7 @@ def find_birthday(args, book):
 def birthdays(book):
     birthdays = book.get_birthdays_per_week()
     result = ""
+
     for day, names in birthdays.items():
         if names:
             result += f"{day}: {', '.join(names)}\n"
@@ -190,8 +200,10 @@ def change_address(args, book):
         raise ValueError(
             "Change-address command expects 2 arguments: name and new address."
         )
+
     name, new_address = args
     record = book.find(name)
+
     if not record:
         raise ValueError("Contact not found.")
 

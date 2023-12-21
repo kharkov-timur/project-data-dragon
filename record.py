@@ -40,12 +40,14 @@ class Record:
 
     def edit_phone(self, old_phone, new_phone):
         index = self.find_phone_index(old_phone)
+
         if index == -1:
             raise ValueError(f"Phone number {old_phone} not found in this contact")
         self.phones[index] = Phone(new_phone)
 
     def remove_phone(self, phone):
         index = self.find_phone_index(phone)
+
         if index == -1:
             raise ValueError(f"Phone number {phone} not found in this contact")
         del self.phones[index]

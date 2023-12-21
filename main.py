@@ -36,8 +36,8 @@ MENU:
     # save-contacts - save all contacts
     # load-contacts - load all contacts
     # add-address [name] [address]: add address for contact
-	# change-address [name] [address]: change address of contact
-    # add-tag [name] [new_tag]: add new tag for contact 
+    # change-address [name] [address]: change address of contact
+    # add-tag [name] [new_tag]: add new tag for contact
     # change-tag [name] [old_tag] [new_tag]: renew old tag for contact 
     # find-by-tag [tag]: Searches for a contact by tag
     # remove-tag [name] [tag]: Remove tag from contact
