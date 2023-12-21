@@ -4,7 +4,13 @@ from copy import deepcopy
 
 class Record:
     def __init__(self, name):
-        self.name = Name(name)
+        if not isinstance(name, str):
+            raise TypeError("Name must be a string")
+        name = Name(name.strip())
+        if isinstance(name, Name) != True:
+            raise TypeError("Name must be an instance of Name class")
+            
+        self.name = name
         self.phones = []
         self.birthday = None
         self.email = None

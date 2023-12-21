@@ -15,6 +15,14 @@ def input_error(func):
 
 @input_error
 def add_contact(name, book):
+    if len(name) != 1:
+        raise ValueError("Add-contact command expects 1 argument: name.")
+    
+    name = name[0]
+
+    if not name:
+        raise ValueError("Name can not be empty.")
+    
     record = Record(name)
 
     while True:
