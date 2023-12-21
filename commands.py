@@ -14,28 +14,60 @@ def input_error(func):
 
 
 @input_error
-def add_contact(args, book):
-    if len(args) not in [2, 3]:
-        raise ValueError(
-            "Add command expects 2 or 3 arguments: name, phone, and optionally birthday."
-        )
+def add_contact(name, book):
+    if len(name) != 1:
+        raise ValueError("Add-contact command expects 1 argument: name.")
+    
+    name = name[0]
 
-    name, phone = args[:2]
-    existing_record = book.find(name)
+    if not name:
+        raise ValueError("Name can not be empty.")
+    
+    record = Record(name)
 
-    if existing_record:
-        existing_record.add_phone(name, phone)
-        return f"Phone number {phone} added to {name} contact."
-    else:
-        record = Record(name)
-        record.add_phone(name, phone)
+    while True:
+        phone = input("Enter the phone number (or 'done' to finish): ")
+        if phone.lower() == 'done':
+            break
+        try:
+            record.add_phone(name, phone)
+            print("Phone added.")
+        except ValueError as e:
+            print(f"Invalid phone number: {e}")
+            continue
 
-        if len(args) == 3:
-            birthday = args[2]
-            record.add_birthday(birthday)
+    while True:
+        try:
+            print("Available fields:")
+            print("birthday, address, email")
+            add_more = input("Do you want to add more fields? (yes/no): ")
 
-        book.add_record(record)
-        return "Contact added."
+            if add_more.lower() != 'yes':
+                break
+
+            field_name = input("Enter the field name: ")
+            field_value = input("Enter the field value: ")
+
+            if field_name.lower() == 'birthday':
+                record.add_birthday(field_value)
+                print("Birthday added.")
+
+            elif field_name.lower() == 'address':
+                record.add_address(field_value)
+                print("Address added.")
+
+            elif field_name.lower() == 'email':
+                record.set_email(field_value)
+                print("Email added.")
+
+            else:
+                raise ValueError("Invalid field name.")
+        except ValueError as e:
+            print(f"Invalid field value: {e}")
+            continue
+
+    book.add_record(record)
+    return "Contact added."
 
 
 @input_error

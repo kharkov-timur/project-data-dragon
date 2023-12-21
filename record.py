@@ -4,7 +4,13 @@ from copy import deepcopy
 
 class Record:
     def __init__(self, name):
-        self.name = Name(name)
+        if not isinstance(name, str):
+            raise TypeError("Name must be a string")
+        name = Name(name.strip())
+        if isinstance(name, Name) != True:
+            raise TypeError("Name must be an instance of Name class")
+            
+        self.name = name
         self.phones = []
         self.birthday = None
         self.email = None
@@ -63,19 +69,18 @@ class Record:
         return f"Contact name: {self.name.value}, Phones: {phones_str}{birthday_str}{email_str}{address_str}"
 
     def get_name(self):
-        return self.name.value
+        return self.name
 
     def add_address(self, address):
         self.address = Address(address)
-        return f"Address added for {self.name.value}."
+        return f"Address: {self.address} added for contact: {self.name.value}."
+    def change_address(self,address):
 
-    def change_address(self, new_address):
-        if not self.address:
-            return f"Address for {self.name.value} didn't find,first please add address"
-
-        old_address = self.address.value
-        self.address.value = new_address
-        return f"Address changed for {self.name.value} from address: {old_address} to new_address: {self.address.value}"
+        old_address = self.address
+        if old_address is None:
+            raise ' You don\'t have any address for this contact. First, please add address for this contact.'
+        self.address = address
+        return f'Adress changed for {self.name.value} from address: {old_address} to new_address: {self.address.value}'
 
     def __deepcopy__(self, memo):
         copy_object = Record()
