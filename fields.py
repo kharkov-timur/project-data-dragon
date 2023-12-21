@@ -40,3 +40,12 @@ class Phone(Field):
         if not re.fullmatch(r"\d{10}", value):
             raise ValueError("Phone length should be exactly 10 digit symbols")
         super().__init__(value)
+
+
+class Address(Field):
+    def __init__(self, value):
+        super().__init__(value)
+        
+class Address(Field):
+    def __init__(self, value):
+        super().__init__(value)
