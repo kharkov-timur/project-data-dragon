@@ -9,7 +9,7 @@ class Record:
         name = Name(name.strip())
         if isinstance(name, Name) != True:
             raise TypeError("Name must be an instance of Name class")
-            
+
         self.name = name
         self.phones = []
         self.birthday = None
@@ -74,13 +74,13 @@ class Record:
     def add_address(self, address):
         self.address = Address(address)
         return f"Address: {self.address} added for contact: {self.name.value}."
-    def change_address(self,address):
 
+    def change_address(self, address):
         old_address = self.address
         if old_address is None:
-            raise ' You don\'t have any address for this contact. First, please add address for this contact.'
+            raise " You don't have any address for this contact. First, please add address for this contact."
         self.address = address
-        return f'Adress changed for {self.name.value} from address: {old_address} to new_address: {self.address.value}'
+        return f"Adress changed for {self.name.value} from address: {old_address} to new_address: {self.address.value}"
 
     def __deepcopy__(self, memo):
         copy_object = Record()

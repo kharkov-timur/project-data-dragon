@@ -17,17 +17,17 @@ def input_error(func):
 def add_contact(name, book):
     if len(name) != 1:
         raise ValueError("Add-contact command expects 1 argument: name.")
-    
+
     name = name[0]
 
     if not name:
         raise ValueError("Name can not be empty.")
-    
+
     record = Record(name)
 
     while True:
         phone = input("Enter the phone number (or 'done' to finish): ")
-        if phone.lower() == 'done':
+        if phone.lower() == "done":
             break
         try:
             record.add_phone(name, phone)
@@ -42,21 +42,21 @@ def add_contact(name, book):
             print("birthday, address, email")
             add_more = input("Do you want to add more fields? (yes/no): ")
 
-            if add_more.lower() != 'yes':
+            if add_more.lower() != "yes":
                 break
 
             field_name = input("Enter the field name: ")
             field_value = input("Enter the field value: ")
 
-            if field_name.lower() == 'birthday':
+            if field_name.lower() == "birthday":
                 record.add_birthday(field_value)
                 print("Birthday added.")
 
-            elif field_name.lower() == 'address':
+            elif field_name.lower() == "address":
                 record.add_address(field_value)
                 print("Address added.")
 
-            elif field_name.lower() == 'email':
+            elif field_name.lower() == "email":
                 record.set_email(field_value)
                 print("Email added.")
 
@@ -79,6 +79,7 @@ def change_contact(book):
         raise ValueError("Contact not found.")
 
     phones = record.phones_list()
+
     if not phones:
         return "No phone numbers available for change."
 
