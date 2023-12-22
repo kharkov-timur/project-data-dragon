@@ -5,13 +5,21 @@
 
 ---
 
-The application allows you to create a personalized contact list with the following fields:
-* username
+The application allows you to create a personalized contact and note list
+
+Contacts can be added with the following information:
+* name
 * phone number
 * date of birth
 * email
 * address
-* notes
+* tags
+
+Notes can be added with the following information:
+* title
+* text
+* author
+* tags
 
 ---
 
