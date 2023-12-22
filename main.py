@@ -12,6 +12,10 @@ from commands import (
     set_email,
     add_address,
     change_address,
+    add_tag,
+    change_tag_by_name,
+    find_contacts_by_tag,
+    remove_tag,
 )
 from notes_commands import (
     add_note_text,
@@ -44,6 +48,10 @@ MENU:
     # load-contacts - load all contacts
     # add-address [name] [address] - add address for contact
     # change-address [name] [address] - change address of contact
+    # add-tag [name] [new_tag]: add new tag for contact
+    # change-tag [name] [old_tag] [new_tag]: renew old tag for contact
+    # find-by-tag [tag]: Searches for a contact by tag
+    # remove-tag [name] [tag]: Remove tag from contact
     # add-note - add new contact
     # remove-note - delete exist note
     # change-note-title - change note title
@@ -126,6 +134,18 @@ def main():
 
         elif command == "change-address":
             print(change_address(args, book))
+
+        elif command == "add-tag":
+            print(add_tag(args, book))
+
+        elif command == "change-tag":
+            print(change_tag_by_name(args, book))
+
+        elif command == "find-by-tag":
+            print(find_contacts_by_tag(args, book))
+
+        elif command == "remove-tag":
+            print(remove_tag(args, book))
 
         elif command == "all-notes":
             print(show_all_notes(notes))
