@@ -1,5 +1,8 @@
+from rich.console import Console
+from rich.table import Table
 from pathlib import Path
 import json
+
 from collections import UserDict
 from copy import deepcopy
 from notes.note import Note
@@ -28,6 +31,21 @@ class NotesBook(UserDict):
         if title in self.data:
             del self.data[title]
             self.save_notes_to_file()
+
+    def show_notes_table(self):
+        console = Console()
+        table = Table(show_header=True, header_style="bold magenta")
+
+        table.add_column("Author", style="dim", width=12)
+        table.add_column("Title", style="dim", width=20)
+        table.add_column("Description", style="dim", width=30)
+        table.add_column("Tags", style="dim", width=15)
+
+        for note in self.data.values():  # Assuming self.data contains Note instances
+            tags = ", ".join(note.get_tags()) if note.get_tags() else "No Tags"
+            table.add_row(note.author, note.get_title(), note.get_text(), tags)
+
+        console.print(table)
 
     def save_notes_to_file(self):
         with open(self.filepath, "w") as f:

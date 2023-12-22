@@ -31,51 +31,7 @@ from notes.notes_commands import (
 )
 from contacts.address_book import AddressBook
 from notes.notes_book import NotesBook
-
-
-MENU = """
-MENU:
-    -------------------------------------------------------------------
-    GENERAL MENU:
-    -------------------------------------------------------------------
-    # menu - show menu
-    # exit/close - exit from program
-    -------------------------------------------------------------------
-    CONTACTS MENU:
-    -------------------------------------------------------------------
-    # add-contact [name] [phone] [birthday(optional)] - add new contact
-    # change-contact [name] [phone] - change contact number
-    # remove-contact [name] [position] - change contact number
-    # find-phone [name] - show contact phone
-    # all-contacts - show all contacts
-    # add-birthday [name] [birthday] - add birthday to contact
-    # find-birthday [name] - show birthday of contact
-    # birthdays - show upcoming birthdays
-    # add-email [name] [email] - add new email
-    # change-email [name] [email] - change contact email
-    # save-contacts - save all contacts
-    # load-contacts - load all contacts
-    # add-address [name] [address] - add address for contact
-    # change-address [name] [address] - change address of contact
-    # add-tag [name] [new_tag] - add new tag for contact
-    # change-tag [name] [old_tag] [new_tag] - renew old tag for contact
-    # find-by-tag [tag] - Searches for a contact by tag
-    # remove-tag [name] [tag] - Remove tag from contact
-    -------------------------------------------------------------------
-    NOTES MENU:
-    -------------------------------------------------------------------
-    # add-note             - add new note
-    # add-tag-to-note      - add tag to exist note
-    # all-notes            - show all notes
-    # change-note-title    - change note title
-    # change-note-text     - change note text
-    # find-note            - find note by author
-    # find-note-by-title   - find note by title
-    # find-notes-by-tag    - find notes by tag
-    # find-notes-by-author - find tag by author
-    # remove-tag-from-note - remove tag from exist note
-    # remove-note          - delete exist note
-"""
+from menu import menu_table
 
 
 def parse_input(user_input):
@@ -87,8 +43,8 @@ def parse_input(user_input):
 def main():
     book = AddressBook()
     notes = NotesBook()
-    print("\nWelcome to the PERSONAL CONTACT HELPER!")
-    print(MENU)
+    print("\nWelcome to the PERSONAL HELPER!\n")
+    menu_table()
     tmp = None
     prev_command = None
     input_text = "Enter a command: "
@@ -106,7 +62,7 @@ def main():
             break
 
         elif command == "menu":
-            print(MENU)
+            menu_table()
 
         elif command == "add-contact":
             print(add_contact(args, book))
@@ -114,7 +70,7 @@ def main():
         elif command == "change-contact":
             print(change_contact(book))
 
-        elif command == "remove-contact":
+        elif command == "remove-phone":
             print(remove_phone(args, book))
 
         elif command == "find-phone":

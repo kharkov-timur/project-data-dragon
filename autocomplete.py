@@ -4,7 +4,7 @@ autocomplete_commands = [
     "menu",
     "add-contact",
     "change-contact",
-    "remove-contact",
+    "remove-phone",
     "find-phone",
     "all-contacts",
     "add-birthday",

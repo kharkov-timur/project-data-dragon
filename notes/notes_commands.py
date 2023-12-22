@@ -1,5 +1,3 @@
-from rich.console import Console
-from rich.table import Table
 from notes.note import Note
 from notes.notes_book import NotesBook
 
@@ -15,25 +13,11 @@ def add_note_text(text: str, title: str, author: str, notes: NotesBook):
     return "Note added. You also can add tags to the note using the command add-tag-to-note"
 
 
-def show_all_notes(notes_book):
-    notes = list(notes_book.data.values())
-    if not notes:
+def show_all_notes(notes):
+    if len(notes) == 0:
         return "There are no notes"
-
-    console = Console()
-
-    table = Table(show_header=True, header_style="bold magenta")
-
-    table.add_column("Author")
-    table.add_column("Title", style="dim", width=12)
-    table.add_column("Description")
-    table.add_column("Tags")
-
-    for note in notes:
-        tags = ", ".join(note.get_tags()) if note.get_tags() else "No Tags"
-        table.add_row(note.author, note.get_title(), note.get_text(), tags)
-
-    console.print(table)
+    notes_book = NotesBook()
+    notes_book.show_notes_table()
 
 
 def add_tag_to_note(title: str, tag: str, notes: NotesBook):
