@@ -1,7 +1,7 @@
-## DATA-DRAGON project
+## DATA-DRAGONS
 
 ---
-## Personal contact helper
+## Personal helper
 
 ---
 
@@ -57,7 +57,7 @@ Notes commands:
 10. `remove-tag-from-note` - remove tag from exist note
 11. `remove-note` - delete exist note
 
-### How to run the application:
+### How to run:
 1. Clone the repository
 2. Open the project in your IDE
 3. Create virtual environment `$ python3 -m venv venv`
