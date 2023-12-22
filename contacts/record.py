@@ -1,4 +1,4 @@
-from fields import Name, Phone, Birthday, Address
+from contacts.fields import Name, Phone, Birthday, Address
 from copy import deepcopy
 
 
