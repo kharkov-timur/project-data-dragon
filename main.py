@@ -37,9 +37,13 @@ from notes.notes_book import NotesBook
 
 MENU = """
 MENU:
-    # menu - show menu
     -------------------------------------------------------------------
-    # CONTACTS MENU:
+    GENERAL MENU:
+    -------------------------------------------------------------------
+    # menu - show menu
+    # exit/close - exit from program
+    -------------------------------------------------------------------
+    CONTACTS MENU:
     -------------------------------------------------------------------
     # add-contact [name] [phone] [birthday(optional)] - add new contact
     # change-contact [name] [phone] - change contact number
@@ -60,20 +64,19 @@ MENU:
     # find-by-tag [tag] - Searches for a contact by tag
     # remove-tag [name] [tag] - Remove tag from contact
     -------------------------------------------------------------------
-    # NOTES MENU:
+    NOTES MENU:
     -------------------------------------------------------------------
     # add-note             - add new note
-    # find-note            - find note by title
+    # add-tag-to-note      - add tag to exist note
+    # set-author           - set author to note
     # all-notes            - show all notes
-    # remove-note          - delete exist note
     # change-note-title    - change note title
     # change-note-text     - change note text
-    # add-tag-to-note      - add tag to exist note
-    # remove-tag-from-note - remove tag fom exist note
-    # find-notes-by-tag    - find tag by tag
+    # find-note            - find note by title
+    # find-notes-by-tag    - find notes by tag
     # find-notes-by-author - find tag by author
-    # set-author           - set author to note
-    # exit/close - exit from program
+    # remove-tag-from-note - remove tag from exist note
+    # remove-note          - delete exist note
 """
 
 
@@ -93,7 +96,7 @@ def main():
     input_text = "Enter a command: "
 
     while True:
-        user_input = prompt("Enter command: ", completer=command_completer)
+        user_input = prompt(input_text, completer=command_completer)
 
         if len(user_input) == 0:
             continue

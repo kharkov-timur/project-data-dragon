@@ -15,15 +15,16 @@ The application allows you to create a personalized contact list with the follow
 
 ---
 
-The added contacts will be saved to the `contacts.json` file.
+The added contacts will be saved to the `contacts.bin` file.
 
-Added notes will be saved to the `notes.json` file.
+Added notes will be saved to the `notes.bin` file.
 
 ---
 The application has the following functionality:
 
 General commands:
 1. `menu` - show menu
+2. `exit/close` - exit from program
 
 Contacts commands:
 1. `add-contact [name] [phone] [birthday(optional)]` - add new contact
@@ -42,8 +43,24 @@ Contacts commands:
 14. `change-tag [name] [old_tag] [new_tag]` - renew old tag for contact
 15. `find-by-tag [tag]` - searches for a contact by tag
 16. `remove-tag [name] [tag]` - remove tag from contact
-17. `exit/close` - exit from program
 
 Notes commands:
-1. `add-note [author] [title] [note] [tag]` - add new note
-2. `change-note [author] [title] [note] [tag]` - change note
+1. `add-note` - add new note
+2. `add-tag-to-note` - add tag to exist note
+3. `set-author` - set author to note
+4. `all-notes` - show all notes
+5. `change-note-title` - change note title
+6. `change-note-text` - change note text
+7. `find-note` - find note by title
+8. `find-notes-by-tag` - find notes by tag
+9. `find-notes-by-author` - find notes by author
+10. `remove-tag-from-note` - remove tag from exist note
+11. `remove-note` - delete exist note
+
+### How to run the application:
+1. Clone the repository
+2. Open the project in your IDE
+3. Create virtual environment `$ python3 -m venv venv`
+4. Activate environment `$ source venv/bin/activate`
+5. Run command `$ pip3 install -r requirements.txt` in terminal
+6. Run command `$ python3 main.py` in terminal
