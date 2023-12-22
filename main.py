@@ -26,6 +26,9 @@ from notes_commands import (
     add_note_tag,
     remove_note_tag,
     find_note_tag,
+    add_note_author,
+    find_note_author,
+    find_note
 )
 from address_book import AddressBook
 from notes_book import NotesBook
@@ -61,7 +64,19 @@ MENU:
     # find-notes-by-tag - find tag by tag
     # exit/close - exit from program
 """
-
+MENU = MENU+""" 
+    # add-note             - add new note
+    # find-note            - find note by title
+    # all-notes            - show all notes
+    # remove-note          - delete exist note
+    # change-note-title    - change note title
+    # change-note-text     - change note text
+    # add-tag-to-note      - add tag to exist note
+    # remove-tag-from-note - remove tag fom exist note
+    # find-notes-by-tag    - find tag by tag
+    # find-notes-by-author - find tag by author
+    # set-author           - set author to note
+"""
 
 def parse_input(user_input):
     cmd, *args = user_input.split()
@@ -153,39 +168,68 @@ def main():
         elif command == "add-note":
             input_text = "Enter note title: "
             prev_command = command
+            
+        elif command == "find-note":
+            input_text = "Enter note title: "
+            prev_command = command
 
         elif command == "remove-note":
-            input_text = "Enter title of note witch you want to remove: "
+            input_text = "Enter title of note which you want to remove: "
             prev_command = command
 
         elif command == "change-note-title":
-            input_text = "Enter note title in witch you want to change title: "
+            input_text = "Enter note title in which you want to change title: "
             prev_command = command
 
         elif command == "change-note-text":
-            input_text = "Enter note title in witch you want to change text: "
+            input_text = "Enter note title in which you want to change text: "
             prev_command = command
 
         elif command == "add-tag-to-note":
-            input_text = "Enter note title to  witch you want add tag: "
+            input_text = "Enter note title to  which you want add tag: "
             prev_command = command
 
         elif command == "remove-tag-from-note":
-            input_text = "Enter note title in witch you want remove tag: "
+            input_text = "Enter note title in which you want remove tag: "
             prev_command = command
 
         elif command == "find-notes-by-tag":
             input_text = "Enter tag: "
             prev_command = command
-
-        elif prev_command == "find-notes-by-tag":
-            print(
-                find_note_tag(
-                    user_input,
-                    notes,
-                )
-            )
-            tmp = None
+        
+        elif command == "find-notes-by-author":
+            input_text = "Enter author: "
+            prev_command = command
+            
+        elif command == "set-author":
+            input_text = "Enter note title to which you want add author: "
+            prev_command = command
+            
+        elif prev_command == "set-author":
+            if notes.find(user_input):
+                input_text = "Enter author: "
+                tmp = user_input
+                prev_command = "set_author" 
+            else:
+                print(f"Note with title {user_input} not found ")
+                prev_command = None
+                input_text = "Enter a command: "  
+                              
+        elif prev_command == "find-note":   
+            print(find_note( user_input, notes,))
+            tmp = None 
+            prev_command = None
+            input_text = "Enter a command: " 
+            
+        elif prev_command == "find-notes-by-tag":   
+            print(find_note_tag( user_input, notes,))
+            tmp = None 
+            prev_command = None
+            input_text = "Enter a command: "
+            
+        elif prev_command == "find-notes-by-author":   
+            print(find_note_author( user_input, notes,))
+            tmp = None 
             prev_command = None
             input_text = "Enter a command: "
 
@@ -294,17 +338,17 @@ def main():
             )
             tmp = None
             prev_command = None
-            input_text = "Enter a command: "
-
-        elif prev_command == "remove-tag":
-            print(
-                remove_note_tag(
-                    user_input,
-                    tmp,
-                    notes,
-                )
-            )
-            tmp = None
+            input_text = "Enter a command: " 
+            
+        elif prev_command == "add-tag":
+            print(add_note_tag(user_input, tmp, notes, ))
+            tmp = None 
+            prev_command = None
+            input_text = "Enter a command: " 
+                      
+        elif prev_command == "set_author":
+            print(add_note_author(user_input, tmp, notes, ))
+            tmp = None 
             prev_command = None
             input_text = "Enter a command: "
 
