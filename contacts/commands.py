@@ -1,6 +1,6 @@
 import pickle
 import re
-from record import Record
+from contacts.record import Record
 
 
 def input_error(func):
@@ -208,7 +208,7 @@ def change_address(args, book):
         raise ValueError("Contact not found.")
 
     old_address = (
-        record.address.value if record.address else " Unknowed data of address."
+        record.address.value if record.address else " Unknown data of address."
     )
     record.add_address(new_address)
 
