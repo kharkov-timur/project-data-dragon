@@ -90,6 +90,7 @@ def remove_note_tag(tag: str, title: str, notes: NotesBook):
     old_note = notes.find(title)
     old_text = old_note.get_text()
     tags = old_note.get_tags()
+
     if tag in tags:
         tags.remove(tag)
         notes.remove(title)
