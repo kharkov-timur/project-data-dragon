@@ -35,8 +35,6 @@ MENU:
     # birthdays - show upcoming birthdays
     # add-email - [name] [email]  - add new email
     # change-email - [name] [email]  - change contact email
-    # save-contacts - save all contacts
-    # load-contacts - load all contacts
     # add-address [name] [address] - add address for contact
     # change-address [name] [address] - change address of contact
     # add-tag [name] [new_tag]: add new tag for contact
