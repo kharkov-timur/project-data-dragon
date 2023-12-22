@@ -28,19 +28,17 @@ def add_tag_to_note(title: str, tag: str, notes: NotesBook):
 
 
 def find_note(author: str, notes: NotesBook):
-    res = notes.find(author)
-    if not res:
-        return f"Note with author {author} not found."
-    else:
-        return res.__str__()
+    if not any(note.author == author for note in notes.data.values()):
+        return f"No notes with author '{author}'"
+
+    notes.show_notes_table(filter_author=author)
 
 
 def find_note_by_title(title: str, notes: NotesBook):
-    res = notes.find_by_title(title)
-    if not res:
-        return f"Note with title {title} not found."
-    else:
-        return res.__str__()
+    if title not in notes.data:
+        return f"Note with title '{title}' not found."
+
+    notes.show_notes_table(filter_title=title)
 
 
 def remove_note(title: str, notes: NotesBook):
@@ -110,20 +108,9 @@ def change_note_author(author: str, title: str, notes: NotesBook):
 
 
 def find_note_tag(tag: str, notes: NotesBook):
-    res = []
-    for i in notes:
-        if tag in notes.find(i).get_tags():
-            res.append(notes.find(i))
-    if len(res) == 0:
-        return f"No notes with tag {tag}"
-    return res.__str__()
+    matching_notes = any(tag in note.get_tags() for note in notes.data.values())
 
+    if not matching_notes:
+        return f"No notes with tag '{tag}'"
 
-def find_note_author(author: str, notes: NotesBook):
-    res = []
-    for i in notes:
-        if author == notes.find(i).author:
-            res.append(notes.find(i))
-    if len(res) == 0:
-        return f"No notes with author {author}"
-    return res.__str__()
+    notes.show_notes_table(filter_tag=tag)

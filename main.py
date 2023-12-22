@@ -26,7 +26,6 @@ from notes.notes_commands import (
     change_note_text,
     add_note_tag,
     find_note_tag,
-    find_note_author,
     find_note,
     find_note_by_title,
 )
@@ -195,17 +194,6 @@ def main():
         elif prev_command == "find-notes-by-tag":
             print(
                 find_note_tag(
-                    user_input,
-                    notes,
-                )
-            )
-            tmp = None
-            prev_command = None
-            input_text = "Enter a command: "
-
-        elif prev_command == "find-notes-by-author":
-            print(
-                find_note_author(
                     user_input,
                     notes,
                 )
