@@ -21,6 +21,7 @@ def create_contacts_menu_table():
 
     table.add_row("add-contact", "name phone birthday(optional)", "Add a new contact")
     table.add_row("change-contact", "", "Change the phone number")
+    table.add_row('remove-contact', 'name', 'Remove contact')
     table.add_row("remove-phone", "", "Remove a phone number")
     table.add_row("find-phone", "name", "Show phone numbers for the specified contact")
     table.add_row("all-contacts", "", "Show all contacts")

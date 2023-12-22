@@ -37,7 +37,20 @@ def add_contact(args, book):
         book.add_record(record)
         book.save_records_to_file()
         return "Contact added."
+    
+@input_error
+def remove_contact(args, book):
+    if len(args) != 1:
+        raise ValueError("Remove-contact command expects 1 argument: name.")
 
+    (name,) = args
+    record = book.find(name)
+
+    if record:
+        book.remove_record(name)
+        return f"Contact {name} removed."
+    else:
+        return f"Contact with name {name} not found."
 
 @input_error
 def change_contact(book):
@@ -189,12 +202,13 @@ def add_address(args, book):
 
 @input_error
 def change_address(args, book):
-    if len(args) != 2:
+    if len(args) < 2:
         raise ValueError(
             "Change-address command expects 2 arguments: name and new address."
         )
 
-    name, new_address = args
+    name = args[0]
+    new_address = " ".join(args[1:])
     record = book.find(name)
 
     if not record:

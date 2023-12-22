@@ -3,6 +3,7 @@ from prompt_toolkit.completion import WordCompleter
 autocomplete_commands = [
     "menu",
     "add-contact",
+    "remove-contact",
     "change-contact",
     "remove-phone",
     "find-phone",

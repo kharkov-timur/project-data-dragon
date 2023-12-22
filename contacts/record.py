@@ -115,4 +115,6 @@ class Record:
         copy_object.phones = deepcopy(self.phones, memo)
         copy_object.birthday = deepcopy(self.birthday, memo)
         copy_object.email = deepcopy(self.email, memo)
+        copy_object.address = deepcopy(self.address, memo)
+        copy_object.tag = deepcopy(self.tag,memo)
         return copy_object
