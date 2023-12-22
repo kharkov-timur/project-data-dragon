@@ -178,9 +178,10 @@ def birthdays(book):
 
 @input_error
 def add_address(args, book):
-    if len(args) != 2:
+    if len(args) < 2:
         raise ValueError("Add-address command expects 2 arguments: name and address.")
-    name, address = args
+    name = args[0]
+    address = " ".join(args[1:])
     record = book.find(name)
     record.add_address(address, book)
     return f"Added address: {address}"
