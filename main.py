@@ -1,4 +1,4 @@
-from commands import (
+from contacts.commands import (
     add_contact,
     change_contact,
     remove_contact,
@@ -17,21 +17,20 @@ from commands import (
     find_contacts_by_tag,
     remove_tag,
 )
-from notes_commands import (
+from notes.notes_commands import (
     add_note_text,
     show_all_notes,
     remove_note,
     change_note_title,
     change_note_text,
     add_note_tag,
-    remove_note_tag,
     find_note_tag,
     add_note_author,
     find_note_author,
-    find_note
+    find_note,
 )
-from address_book import AddressBook
-from notes_book import NotesBook
+from contacts.address_book import AddressBook
+from notes.notes_book import NotesBook
 
 
 MENU = """
@@ -64,7 +63,9 @@ MENU:
     # find-notes-by-tag - find tag by tag
     # exit/close - exit from program
 """
-MENU = MENU+""" 
+MENU = (
+    MENU
+    + """ 
     # add-note             - add new note
     # find-note            - find note by title
     # all-notes            - show all notes
@@ -77,6 +78,8 @@ MENU = MENU+"""
     # find-notes-by-author - find tag by author
     # set-author           - set author to note
 """
+)
+
 
 def parse_input(user_input):
     cmd, *args = user_input.split()
@@ -168,7 +171,7 @@ def main():
         elif command == "add-note":
             input_text = "Enter note title: "
             prev_command = command
-            
+
         elif command == "find-note":
             input_text = "Enter note title: "
             prev_command = command
@@ -196,40 +199,55 @@ def main():
         elif command == "find-notes-by-tag":
             input_text = "Enter tag: "
             prev_command = command
-        
+
         elif command == "find-notes-by-author":
             input_text = "Enter author: "
             prev_command = command
-            
+
         elif command == "set-author":
             input_text = "Enter note title to which you want add author: "
             prev_command = command
-            
+
         elif prev_command == "set-author":
             if notes.find(user_input):
                 input_text = "Enter author: "
                 tmp = user_input
-                prev_command = "set_author" 
+                prev_command = "set_author"
             else:
                 print(f"Note with title {user_input} not found ")
                 prev_command = None
-                input_text = "Enter a command: "  
-                              
-        elif prev_command == "find-note":   
-            print(find_note( user_input, notes,))
-            tmp = None 
-            prev_command = None
-            input_text = "Enter a command: " 
-            
-        elif prev_command == "find-notes-by-tag":   
-            print(find_note_tag( user_input, notes,))
-            tmp = None 
+                input_text = "Enter a command: "
+
+        elif prev_command == "find-note":
+            print(
+                find_note(
+                    user_input,
+                    notes,
+                )
+            )
+            tmp = None
             prev_command = None
             input_text = "Enter a command: "
-            
-        elif prev_command == "find-notes-by-author":   
-            print(find_note_author( user_input, notes,))
-            tmp = None 
+
+        elif prev_command == "find-notes-by-tag":
+            print(
+                find_note_tag(
+                    user_input,
+                    notes,
+                )
+            )
+            tmp = None
+            prev_command = None
+            input_text = "Enter a command: "
+
+        elif prev_command == "find-notes-by-author":
+            print(
+                find_note_author(
+                    user_input,
+                    notes,
+                )
+            )
+            tmp = None
             prev_command = None
             input_text = "Enter a command: "
 
@@ -338,17 +356,29 @@ def main():
             )
             tmp = None
             prev_command = None
-            input_text = "Enter a command: " 
-            
+            input_text = "Enter a command: "
+
         elif prev_command == "add-tag":
-            print(add_note_tag(user_input, tmp, notes, ))
-            tmp = None 
+            print(
+                add_note_tag(
+                    user_input,
+                    tmp,
+                    notes,
+                )
+            )
+            tmp = None
             prev_command = None
-            input_text = "Enter a command: " 
-                      
+            input_text = "Enter a command: "
+
         elif prev_command == "set_author":
-            print(add_note_author(user_input, tmp, notes, ))
-            tmp = None 
+            print(
+                add_note_author(
+                    user_input,
+                    tmp,
+                    notes,
+                )
+            )
+            tmp = None
             prev_command = None
             input_text = "Enter a command: "
 

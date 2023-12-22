@@ -1,7 +1,7 @@
 from collections import UserDict
 from datetime import datetime
-from record import Record
 from copy import deepcopy
+from contacts.record import Record
 
 
 class AddressBook(UserDict):
