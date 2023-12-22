@@ -1,6 +1,3 @@
-from copy import deepcopy
-
-
 class Note:
     def __init__(
         self,
@@ -44,7 +41,7 @@ class Note:
         tags_str = f"\nTags: {tags_list_str}" if len(self.tags) > 0 else ""
         author_str = f"\nAuthor: {self.author}" if len(self.author) > 0 else ""
         return (
-            f"\nTitle: {self.title}\nText: {self.description}{tags_str}{author_str}\n"
+            f"\n{author_str}\nTitle: {self.title}\nText: {self.description}{tags_str}\n"
         )
 
     def __repr__(self):
@@ -52,5 +49,5 @@ class Note:
         tags_str = f"\nTags: {tags_list_str}" if len(self.tags) > 0 else ""
         author_str = f"\nAuthor: {self.author}" if len(self.author) > 0 else ""
         return (
-            f"\nTitle: {self.title}\nText: {self.description}{tags_str}{author_str}\n"
+            f"\n{author_str}\nTitle: {self.title}\nText: {self.description}{tags_str}\n"
         )

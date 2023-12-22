@@ -23,9 +23,9 @@ Notes can be added with the following information:
 
 ---
 
-The added contacts will be saved to the `contacts.bin` file.
+The added contacts will be saved to the `contacts.json` file.
 
-Added notes will be saved to the `notes.bin` file.
+Added notes will be saved to the `notes.json` file.
 
 ---
 The application has the following functionality:
@@ -59,9 +59,9 @@ Notes commands:
 4. `all-notes` - show all notes
 5. `change-note-title` - change note title
 6. `change-note-text` - change note text
-7. `find-note` - find note by title
+7. `find-note` - find note by author
 8. `find-notes-by-tag` - find notes by tag
-9. `find-notes-by-author` - find notes by author
+9. `find-notes-by-title` - find notes by title
 10. `remove-tag-from-note` - remove tag from exist note
 11. `remove-note` - delete exist note
 

@@ -1,3 +1,5 @@
+from pathlib import Path
+import json
 from collections import UserDict
 from datetime import datetime
 from copy import deepcopy
@@ -15,17 +17,23 @@ class AddressBook(UserDict):
         6: "Sunday",
     }
 
+    def __init__(self, filepath="contacts.json"):
+        super().__init__()
+        self.filepath = filepath
+        self.records = {}
+        self.load_records_from_file()
+
     def add_record(self, record):
-        if not isinstance(record, Record):
-            raise TypeError("Argument must be an instance of Record class")
-        self.data[record.get_name()] = record
+        self.records[record.get_name()] = record
+        self.save_records_to_file()
+
+    def remove_record(self, name):
+        if name in self.records:
+            del self.records[name]
+            self.save_records_to_file()
 
     def find(self, name):
         return self.data.get(name, None)
-
-    def delete(self, name):
-        if name in self.data:
-            del self.data[name]
 
     def get_birthdays_per_week(self):
         today = datetime.today().date()
@@ -49,6 +57,28 @@ class AddressBook(UserDict):
                     next_week_birthdays_by_weekday[weekday_name].append(name)
 
         return next_week_birthdays_by_weekday
+
+    def save_records_to_file(self):
+        with open(self.filepath, "w") as f:
+            contacts_data = {
+                name: {
+                    "phones": [phone.value for phone in record.phones],
+                    "birthday": record.birthday.value if record.birthday else None,
+                    "email": record.email,
+                    "address": record.address.value if record.address else None,
+                    "tag": record.tag,
+                }
+                for name, record in self.records.items()
+            }
+            json.dump(contacts_data, f, indent=4)
+
+    def load_records_from_file(self):
+        if Path(self.filepath).is_file():
+            with open(self.filepath, "r") as f:
+                contacts_data = json.load(f)
+                for name, data in contacts_data.items():
+                    record = Record(name)
+                    self.records[name] = record
 
     def __deepcopy__(self, memo):
         copy_object = AddressBook()

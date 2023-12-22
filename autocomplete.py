@@ -22,6 +22,7 @@ autocomplete_commands = [
     "remove-tag",
     "add-note",
     "find-note",
+    "find-note-by-title",
     "all-notes",
     "remove-note",
     "change-note-title",
@@ -30,7 +31,6 @@ autocomplete_commands = [
     "remove-tag-from-note",
     "find-notes-by-tag",
     "find-notes-by-author",
-    "set-author",
     "exit",
     "close",
 ]

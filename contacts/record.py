@@ -1,3 +1,4 @@
+import json
 from contacts.fields import Name, Phone, Birthday, Address
 from copy import deepcopy
 
@@ -76,7 +77,9 @@ class Record:
 
     def change_address(self, new_address):
         if not self.address:
-            return f"Address for {self.name.value} didn't find, first please add address"
+            return (
+                f"Address for {self.name.value} didn't find, first please add address"
+            )
 
         old_address = self.address.value
         self.address.value = new_address
@@ -98,6 +101,32 @@ class Record:
             print(f"Removed tag: {removed_tag} from contact: {self.name}")
         else:
             raise ValueError(f"Tag '{removed_tag}' not found in this contact.")
+
+    def save_to_file(self, filepath="contacts.json"):
+        with open(filepath, "w") as f:
+            record_data = {
+                "name": self.get_name(),
+                "phones": [phone.value for phone in self.phones],
+                "birthday": self.birthday.value if self.birthday else None,
+                "email": self.get_email(),
+                "address": self.address.value if self.address else None,
+                "tag": self.tag,
+            }
+            json.dump(record_data, f, indent=4)
+
+    def load_from_file(self, filepath="contacts.json"):
+        with open(filepath, "r") as f:
+            record_data = json.load(f)
+            self.name = Name(record_data["name"])
+            self.phones = [Phone(phone) for phone in record_data["phones"]]
+            self.birthday = (
+                Birthday(record_data["birthday"]) if record_data["birthday"] else None
+            )
+            self.email = record_data["email"]
+            self.address = (
+                Address(record_data["address"]) if record_data["address"] else None
+            )
+            self.tag = record_data["tag"]
 
     def __deepcopy__(self, memo):
         copy_object = Record()
