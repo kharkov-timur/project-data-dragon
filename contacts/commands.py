@@ -1,6 +1,6 @@
-import pickle
 import re
 from contacts.record import Record
+from contacts.address_book import AddressBook
 
 
 def input_error(func):
@@ -102,7 +102,7 @@ def remove_phone(args, book):
                 continue
 
             record.remove_phone(phones[position - 1].value)
-            return "Contact updated."
+            return f"Phone {phones[position - 1]} removed."
         except ValueError:
             print("Please enter a valid number.")
         except IndexError:
@@ -125,9 +125,10 @@ def find_phone(args, book):
 
 @input_error
 def show_all(book):
-    if len(book) == 0:
+    if len(book.records) == 0:
         return "There are no contacts in the list."
-    return "\n".join(str(record) for record in book.data.values())
+    address_book = AddressBook()
+    address_book.show_contacts_table()
 
 
 @input_error
@@ -165,23 +166,6 @@ def birthdays(book):
         if names:
             result += f"{day}: {', '.join(names)}\n"
     return result if result else "No birthdays in the next week."
-
-
-@input_error
-def save_contacts(book):
-    with open("book_record", "wb") as fh:
-        encoded_book = pickle.dumps(book)
-        fh.write(encoded_book)
-        return f"{len(book.data)} contacts recorded successfully"
-
-
-@input_error
-def load_contacts(book):
-    with open("book_record", "rb") as fh:
-        restored_data = pickle.load(fh)
-        book.data = restored_data.data
-
-        return f"Restored {len(book.data)} contacts from archive"
 
 
 @input_error
