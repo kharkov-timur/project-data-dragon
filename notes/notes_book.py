@@ -34,7 +34,9 @@ class NotesBook(UserDict):
 
     def show_notes_table(self):
         console = Console()
-        table = Table(show_header=True, header_style="bold magenta")
+        table = Table(
+            title="NOTES TABLE", show_header=True, header_style="bold magenta"
+        )
 
         table.add_column("Author", style="dim", width=12)
         table.add_column("Title", style="dim", width=20)

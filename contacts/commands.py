@@ -32,9 +32,10 @@ def add_contact(args, book):
 
         if len(args) == 3:
             birthday = args[2]
-            record.add_birthday(birthday)
+            record.add_birthday(birthday, book)
 
         book.add_record(record)
+        book.save_records_to_file()
         return "Contact added."
 
 
@@ -81,32 +82,39 @@ def remove_phone(args, book):
     record = book.find(name)
 
     if not record:
-        raise ValueError("Contact not found.")
+        return "Contact not found."
 
     phones = record.phones_list()
 
     if not phones:
         return "No phone numbers to remove."
 
-    print(f"Phone numbers:")
-
+    print("Phone numbers:")
     for idx, phone in enumerate(phones, start=1):
         print(f"{idx}. {phone.value}")
 
     while True:
         try:
-            position = int(input("Enter position of phone number to remove: "))
+            position = input(
+                "Enter position of phone number to remove (or 'exit' to cancel): "
+            )
 
-            if position < 1 or position > len(phones):
-                print("Invalid position.")
+            if position.lower() in ["exit", "close"]:
+                return "Operation canceled."
+
+            position = int(position) - 1
+
+            if position < 0 or position >= len(phones):
+                print("Invalid position. Please try again.")
                 continue
 
-            record.remove_phone(phones[position - 1].value)
-            return f"Phone {phones[position - 1]} removed."
+            phone_to_remove = phones[position].value
+            record.remove_phone(phone_to_remove)
+            book.save_records_to_file()
+            return f"Phone {phone_to_remove} removed."
+
         except ValueError:
             print("Please enter a valid number.")
-        except IndexError:
-            print("Invalid position.")
 
 
 @input_error
@@ -128,7 +136,7 @@ def show_all(book):
     if len(book.records) == 0:
         return "There are no contacts in the list."
     address_book = AddressBook()
-    address_book.show_contacts_table()
+    return address_book.show_contacts_table()
 
 
 @input_error
@@ -139,7 +147,7 @@ def add_birthday(args, book):
     record = book.find(name)
     if not record:
         raise ValueError("Contact not found.")
-    record.add_birthday(birthday)
+    record.add_birthday(birthday, book)
     return "Birthday added."
 
 
@@ -174,7 +182,7 @@ def add_address(args, book):
         raise ValueError("Add-address command expects 2 arguments: name and address.")
     name, address = args
     record = book.find(name)
-    record.add_address(address)
+    record.add_address(address, book)
     return f"Added address: {address}"
 
 
@@ -194,9 +202,10 @@ def change_address(args, book):
     old_address = (
         record.address.value if record.address else " Unknown data of address."
     )
-    record.add_address(new_address)
+    record.add_address(new_address, book)
+    book.save_records_to_file()
 
-    return f"Address updated for {name}.Old address: {old_address} new address: {new_address}"
+    return f"Address for {name} updated from {old_address} to {new_address}"
 
 
 @input_error
@@ -205,7 +214,7 @@ def add_tag(args, book):
         raise ValueError("Add-tag have to be with 2 argument: [name] [tag] ")
     name, tag = args
     record = book.find(name)
-    record.add_tag(tag)
+    record.add_tag(tag, book)
     return f'Added tag: "{tag}" for contact: {name}'
 
 
@@ -221,7 +230,7 @@ def change_tag_by_name(args, book):
 
     if record:
         try:
-            record.edit_tag(old_tag, new_tag)
+            record.edit_tag(old_tag, new_tag, book)
             return f"Tag changed: {old_tag} -> {new_tag} for contact: {name}"
         except ValueError as e:
             return f"Error: {e}"
@@ -235,15 +244,16 @@ def find_contacts_by_tag(args, book):
         if len(args) != 1:
             raise ValueError("Find-contacts-by-tag command expects 1 argument: tag.")
 
-        (tag_to_find,) = args
+        tag_to_find = args[0]
         matching_contacts = [
-            name for name, record in book.items() if tag_to_find in record.tag
+            name for name, record in book.records.items() if tag_to_find in record.tag
         ]
 
         if matching_contacts:
-            return f"Contacts with tag '{tag_to_find}': {', '.join(matching_contacts)}"
+            return book.show_contacts_table(filter_tag=tag_to_find)
         else:
             return f"No contacts found with tag '{tag_to_find}'."
+
     except Exception as e:
         return f"Error: {e}"
 
@@ -259,6 +269,7 @@ def remove_tag(args, book):
     if record:
         if removed_tag in record.tag:
             record.tag.remove(removed_tag)
+            book.save_records_to_file()
             return f"Tag: '{removed_tag}' removed from contact: {name}"
         else:
             return f"Tag: '{removed_tag}' not found in contact: {name}"
@@ -276,5 +287,5 @@ def set_email(args, book):
     record = book.find(name)
     if not record:
         raise ValueError("Contact not found.")
-    record.set_email(email)
+    record.set_email(email, book)
     return "Contact updated."

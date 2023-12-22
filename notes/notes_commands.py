@@ -96,7 +96,7 @@ def remove_note_tag(tag: str, title: str, notes: NotesBook):
         tags.remove(tag)
         notes.remove(title)
         notes.add_record(Note(title, old_text, old_note.author, tags))
-        return f"Tag {tag} added for {title}"
+        return f"Tag {tag} removed from {title} note"
     else:
         return f"No tag {tag} in {title}"
 

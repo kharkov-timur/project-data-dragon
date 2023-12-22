@@ -36,7 +36,7 @@ class AddressBook(UserDict):
             self.save_records_to_file()
 
     def find(self, name):
-        return self.data.get(name, None)
+        return self.records.get(name, None)
 
     def get_birthdays_per_week(self):
         today = datetime.today().date()
@@ -61,7 +61,7 @@ class AddressBook(UserDict):
 
         return next_week_birthdays_by_weekday
 
-    def show_contacts_table(self):
+    def show_contacts_table(self, filter_tag=None):
         console = Console()
         table = Table(show_header=True, header_style="bold magenta")
 
@@ -73,11 +73,14 @@ class AddressBook(UserDict):
         table.add_column("Tags", style="dim")
 
         for name, record in self.records.items():
+            if filter_tag and filter_tag not in record.tag:
+                continue
+
             phones = ", ".join([phone.value for phone in record.phones])
             birthday = record.birthday.value if record.birthday else "N/A"
             email = record.email if record.email else "N/A"
             address = record.address.value if record.address else "N/A"
-            tags = ", ".join(record.tag) if record.tag else "N/A"
+            tags = ", ".join(record.tag)
 
             table.add_row(name, phones, birthday, email, address, tags)
 
@@ -107,8 +110,8 @@ class AddressBook(UserDict):
                     record = Record(record_data["name"])
                     for phone_number in record_data["phones"]:
                         record.add_phone(record.name, phone_number)
-                    if record_data["birthday"]:
-                        record.add_birthday(record_data["birthday"])
+                    if record_data.get("birthday"):
+                        record.add_birthday(record_data["birthday"], self)
                     record.email = (
                         record_data["email"] if record_data["email"] else None
                     )

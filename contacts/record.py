@@ -30,8 +30,9 @@ class Record:
                 return p
         return None
 
-    def add_birthday(self, birthday):
+    def add_birthday(self, birthday, book):
         self.birthday = Birthday(birthday)
+        book.save_records_to_file()
 
     def find_phone_index(self, phone):
         for index, p in enumerate(self.phones):
@@ -53,54 +54,33 @@ class Record:
             raise ValueError(f"Phone number {phone} not found in this contact")
         del self.phones[index]
 
-    def set_email(self, email):
+    def set_email(self, email, book):
         self.email = email
+        book.save_records_to_file()
+        return f"Email set to '{email}' for {self.name.value}."
 
     def get_email(self):
         return self.email
 
-    def __str__(self):
-        phones_str = "; ".join(str(p) for p in self.phones)
-        birthday_str = f", Birthday: {self.birthday}" if self.birthday else ""
-        email_str = f", Email: {self.email}" if self.email else ""
-        address_str = f", Address: {self.address}" if self.address else ""
-        tag_from_list = ", ".join(str(t) for t in self.tag)
-        tag_str = f", Tags: {tag_from_list} " if self.tag else ""
-        return f"Contact name: {self.name.value}, Phones: {phones_str}{birthday_str}{email_str}{address_str}{tag_str}"
-
     def get_name(self):
         return self.name.value
 
-    def add_address(self, address):
+    def add_address(self, address, book):
         self.address = Address(address)
+        book.save_records_to_file()
         return f"Address added for {self.name.value}."
 
-    def change_address(self, new_address):
-        if not self.address:
-            return (
-                f"Address for {self.name.value} didn't find, first please add address"
-            )
-
-        old_address = self.address.value
-        self.address.value = new_address
-        return f"Address changed for {self.name.value} from address: {old_address} to new_address: {self.address.value}"
-
-    def add_tag(self, new_tag):
+    def add_tag(self, new_tag, book):
         self.tag.append(new_tag)
+        book.save_records_to_file()
 
-    def edit_tag(self, old_tag, new_tag):
+    def edit_tag(self, old_tag, new_tag, book):
         if old_tag in self.tag:
             index = self.tag.index(old_tag)
             self.tag[index] = new_tag
+            book.save_records_to_file()
         else:
             raise ValueError(f"Tag {old_tag} not found in this contact")
-
-    def remove_tag_from_contact(self, removed_tag):
-        if removed_tag in self.tag:
-            self.tag.remove(removed_tag)
-            print(f"Removed tag: {removed_tag} from contact: {self.name}")
-        else:
-            raise ValueError(f"Tag '{removed_tag}' not found in this contact.")
 
     def save_to_file(self, filepath="contacts.json"):
         with open(filepath, "w") as f:

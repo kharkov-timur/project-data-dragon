@@ -12,8 +12,6 @@ autocomplete_commands = [
     "birthdays",
     "add-email",
     "change-email",
-    "save-contacts",
-    "load-contacts",
     "add-address",
     "change-address",
     "add-tag",

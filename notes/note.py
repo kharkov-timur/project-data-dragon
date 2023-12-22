@@ -35,19 +35,3 @@ class Note:
             raise ValueError(f"Tag {tag} not found")
         else:
             self.tags.remove(tag)
-
-    # def __str__(self):
-    #     tags_list_str = "; ".join(str(p) for p in self.tags)
-    #     tags_str = f"\nTags: {tags_list_str}" if len(self.tags) > 0 else ""
-    #     author_str = f"\nAuthor: {self.author}" if len(self.author) > 0 else ""
-    #     return (
-    #         f"\n{author_str}\nTitle: {self.title}\nText: {self.description}{tags_str}\n"
-    #     )
-    #
-    # def __repr__(self):
-    #     tags_list_str = "; ".join(str(p) for p in self.tags)
-    #     tags_str = f"\nTags: {tags_list_str}" if len(self.tags) > 0 else ""
-    #     author_str = f"\nAuthor: {self.author}" if len(self.author) > 0 else ""
-    #     return (
-    #         f"\n{author_str}\nTitle: {self.title}\nText: {self.description}{tags_str}\n"
-    #     )
