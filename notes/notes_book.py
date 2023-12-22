@@ -32,7 +32,7 @@ class NotesBook(UserDict):
             del self.data[title]
             self.save_notes_to_file()
 
-    def show_notes_table(self):
+    def show_notes_table(self, filter_tag=None, filter_author=None, filter_title=None):
         console = Console()
         table = Table(
             title="NOTES TABLE", show_header=True, header_style="bold magenta"
@@ -43,7 +43,14 @@ class NotesBook(UserDict):
         table.add_column("Description", style="dim", width=30)
         table.add_column("Tags", style="dim", width=15)
 
-        for note in self.data.values():  # Assuming self.data contains Note instances
+        for note in self.data.values():
+            if filter_tag and filter_tag not in note.get_tags():
+                continue  # Skip notes that don't match the tag filter
+            if filter_author and filter_author != note.author:
+                continue  # Skip notes that don't match the author filter
+            if filter_title and filter_title != note.get_title():
+                continue  # Skip notes that don't match the title filter
+
             tags = ", ".join(note.get_tags()) if note.get_tags() else "No Tags"
             table.add_row(note.author, note.get_title(), note.get_text(), tags)
 

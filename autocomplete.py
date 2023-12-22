@@ -28,7 +28,6 @@ autocomplete_commands = [
     "add-tag-to-note",
     "remove-tag-from-note",
     "find-notes-by-tag",
-    "find-notes-by-author",
     "exit",
     "close",
 ]
