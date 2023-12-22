@@ -65,19 +65,19 @@ class AddressBook(UserDict):
         console = Console()
         table = Table(show_header=True, header_style="bold magenta")
 
-        table.add_column("Name", style="dim", width=20)
-        table.add_column("Phones", style="dim", width=15)
+        table.add_column("Name", style="dim")
+        table.add_column("Phones", style="dim")
         table.add_column("Birthday", style="dim", width=10)
-        table.add_column("Email", style="dim", width=25)
-        table.add_column("Address", style="dim", width=25)
-        table.add_column("Tags", style="dim", width=15)
+        table.add_column("Email", style="dim")
+        table.add_column("Address", style="dim")
+        table.add_column("Tags", style="dim")
 
         for name, record in self.records.items():
             phones = ", ".join([phone.value for phone in record.phones])
             birthday = record.birthday.value if record.birthday else "N/A"
             email = record.email if record.email else "N/A"
             address = record.address.value if record.address else "N/A"
-            tags = ", ".join(record.tag)
+            tags = ", ".join(record.tag) if record.tag else "N/A"
 
             table.add_row(name, phones, birthday, email, address, tags)
 
