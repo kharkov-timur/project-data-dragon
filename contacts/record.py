@@ -76,7 +76,7 @@ class Record:
 
     def change_address(self, new_address):
         if not self.address:
-            return f"Address for {self.name.value} didn't find,first please add address"
+            return f"Address for {self.name.value} didn't find, first please add address"
 
         old_address = self.address.value
         self.address.value = new_address
