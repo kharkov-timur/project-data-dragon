@@ -21,6 +21,7 @@ from notes.notes_commands import (
     add_note_text,
     show_all_notes,
     remove_note,
+    remove_note_tag,
     change_note_title,
     change_note_text,
     add_note_tag,
@@ -217,7 +218,7 @@ def main():
             if notes.find(user_input):
                 input_text = "Enter tag: "
                 tmp = user_input
-                prev_command = "remove-tag"
+                prev_command = "remove-note-tag"
             else:
                 print(f"Note with title {user_input} not found ")
                 prev_command = None
@@ -227,7 +228,7 @@ def main():
             if notes.find(user_input):
                 input_text = "Enter tag: "
                 tmp = user_input
-                prev_command = "add-tag"
+                prev_command = "add-note-tag"
             else:
                 print(f"Note with title {user_input} not found ")
                 prev_command = None
@@ -240,6 +241,18 @@ def main():
                 print(f"Note with title {user_input} not found ")
                 prev_command = None
                 input_text = "Enter a command: "
+
+        elif prev_command == "remove-note-tag":
+            print(
+                remove_note_tag(
+                    user_input,
+                    tmp,
+                    notes,
+                )
+            )
+            tmp = None
+            prev_command = None
+            input_text = "Enter a command: "
 
         elif prev_command == "change-note-title":
             if notes.find(user_input):
@@ -313,7 +326,7 @@ def main():
             prev_command = None
             input_text = "Enter a command: "
 
-        elif prev_command == "add-tag":
+        elif prev_command == "add-note-tag":
             print(
                 add_note_tag(
                     user_input,
