@@ -73,7 +73,7 @@ def change_contact(book):
 
 
 @input_error
-def remove_contact(args, book):
+def remove_phone(args, book):
     if len(args) != 1:
         raise ValueError("Remove command expects argument name.")
 

@@ -1,22 +1,39 @@
+from rich.console import Console
+from rich.table import Table
 from notes.note import Note
 from notes.notes_book import NotesBook
 
 
-def add_note_text(text: str, title: str, notes: NotesBook):
+def add_note_text(text: str, title: str, author: str, notes: NotesBook):
     notes.add_record(
         Note(
             title,
             text,
-            "",
+            author,
         )
     )
-    return "Note added. You also can add tag to note using command add-tag-to-note"
+    return "Note added. You also can add tags to the note using the command add-tag-to-note"
 
 
-def show_all_notes(nones):
-    if len(nones) == 0:
+def show_all_notes(notes_book):
+    notes = list(notes_book.data.values())
+    if not notes:
         return "There are no notes"
-    return "\n".join(str(note) for note in nones.data.values())
+
+    console = Console()
+
+    table = Table(show_header=True, header_style="bold magenta")
+
+    table.add_column("Author")
+    table.add_column("Title", style="dim", width=12)
+    table.add_column("Description")
+    table.add_column("Tags")
+
+    for note in notes:
+        tags = ", ".join(note.get_tags()) if note.get_tags() else "No Tags"
+        table.add_row(note.author, note.get_title(), note.get_text(), tags)
+
+    console.print(table)
 
 
 def add_tag_to_note(title: str, tag: str, notes: NotesBook):
@@ -26,8 +43,16 @@ def add_tag_to_note(title: str, tag: str, notes: NotesBook):
         return f"Tag {tag} added to {title}"
 
 
-def find_note(title: str, notes: NotesBook):
-    res = notes.find(title)
+def find_note(author: str, notes: NotesBook):
+    res = notes.find(author)
+    if not res:
+        return f"Note with author {author} not found."
+    else:
+        return res.__str__()
+
+
+def find_note_by_title(title: str, notes: NotesBook):
+    res = notes.find_by_title(title)
     if not res:
         return f"Note with title {title} not found."
     else:
@@ -90,14 +115,6 @@ def remove_note_tag(tag: str, title: str, notes: NotesBook):
         return f"Tag {tag} added for {title}"
     else:
         return f"No tag {tag} in {title}"
-
-
-def add_note_author(author: str, title: str, notes: NotesBook):
-    note = notes.find(title)
-    text = note.get_text()
-    tags = note.get_tags()
-    notes.add_record(Note(title, text, author, tags))
-    return f"Author {author} added for {title}"
 
 
 def change_note_author(author: str, title: str, notes: NotesBook):
