@@ -82,7 +82,7 @@ class Record:
         else:
             raise ValueError(f"Tag {old_tag} not found in this contact")
 
-    def save_to_file(self, filepath="contacts.json"):
+    def save_to_file(self, filepath="storage/contacts.json"):
         with open(filepath, "w") as f:
             record_data = {
                 "name": self.get_name(),
@@ -94,7 +94,7 @@ class Record:
             }
             json.dump(record_data, f, indent=4)
 
-    def load_from_file(self, filepath="contacts.json"):
+    def load_from_file(self, filepath="storage/contacts.json"):
         with open(filepath, "r") as f:
             record_data = json.load(f)
             self.name = Name(record_data["name"])
@@ -116,5 +116,5 @@ class Record:
         copy_object.birthday = deepcopy(self.birthday, memo)
         copy_object.email = deepcopy(self.email, memo)
         copy_object.address = deepcopy(self.address, memo)
-        copy_object.tag = deepcopy(self.tag,memo)
+        copy_object.tag = deepcopy(self.tag, memo)
         return copy_object

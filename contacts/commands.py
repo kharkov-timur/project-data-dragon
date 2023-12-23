@@ -25,6 +25,7 @@ def add_contact(args, book):
 
     if existing_record:
         existing_record.add_phone(name, phone)
+        book.save_records_to_file()
         return f"Phone number {phone} added to {name} contact."
     else:
         record = Record(name)
@@ -37,7 +38,8 @@ def add_contact(args, book):
         book.add_record(record)
         book.save_records_to_file()
         return "Contact added."
-    
+
+
 @input_error
 def remove_contact(args, book):
     if len(args) != 1:
@@ -48,9 +50,11 @@ def remove_contact(args, book):
 
     if record:
         book.remove_record(name)
+        book.save_records_to_file()
         return f"Contact {name} removed."
     else:
         return f"Contact with name {name} not found."
+
 
 @input_error
 def change_contact(book):

@@ -9,7 +9,7 @@ from notes.note import Note
 
 
 class NotesBook(UserDict):
-    def __init__(self, filepath="notes.json"):
+    def __init__(self, filepath="storage/notes.json"):
         super().__init__()
         self.filepath = filepath
         self.load_notes_from_file()

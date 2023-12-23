@@ -20,7 +20,7 @@ class AddressBook(UserDict):
         6: "Sunday",
     }
 
-    def __init__(self, filepath="contacts.json"):
+    def __init__(self, filepath="storage/contacts.json"):
         super().__init__()
         self.filepath = filepath
         self.records = {}
