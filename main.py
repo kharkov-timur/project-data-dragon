@@ -1,5 +1,6 @@
 from prompt_toolkit import prompt
 from autocomplete import command_completer
+from prompt_toolkit.styles import Style
 from contacts.commands import (
     add_contact,
     change_contact,
@@ -16,7 +17,7 @@ from contacts.commands import (
     change_tag_by_name,
     find_contacts_by_tag,
     remove_tag,
-    remove_contact
+    remove_contact,
 )
 from notes.notes_commands import (
     add_note_text,
@@ -33,6 +34,12 @@ from notes.notes_commands import (
 from contacts.address_book import AddressBook
 from notes.notes_book import NotesBook
 from menu import menu_table
+from custome_output import custom_print
+import builtins
+
+builtins.print = custom_print
+
+style = Style.from_dict({"": "orange", "prompt": "ansipurple"})
 
 
 def parse_input(user_input):
@@ -51,7 +58,7 @@ def main():
     input_text = "Enter a command: "
 
     while True:
-        user_input = prompt(input_text, completer=command_completer)
+        user_input = prompt(input_text, completer=command_completer, style=style)
 
         if len(user_input) == 0:
             continue
@@ -67,10 +74,10 @@ def main():
 
         elif command == "add-contact":
             print(add_contact(args, book))
-            
-        elif command == 'remove-contact':
+
+        elif command == "remove-contact":
             print(remove_contact(args, book))
-            
+
         elif command == "change-contact":
             print(change_contact(book))
 
@@ -78,10 +85,10 @@ def main():
             print(remove_phone(args, book))
 
         elif command == "find-phone":
-            print(find_phone(args, book))
+            find_phone(args, book)
 
         elif command == "all-contacts":
-            print(show_all(book))
+            show_all(book)
 
         elif command == "add-birthday":
             print(add_birthday(args, book))
@@ -111,13 +118,13 @@ def main():
             print(change_tag_by_name(args, book))
 
         elif command == "find-by-tag":
-            print(find_contacts_by_tag(args, book))
+            find_contacts_by_tag(args, book)
 
         elif command == "remove-tag":
             print(remove_tag(args, book))
 
         elif command == "all-notes":
-            print(show_all_notes(notes))
+            show_all_notes(notes)
 
         elif command == "add-note":
             input_text = "Enter author of the note: "
@@ -174,34 +181,19 @@ def main():
                 input_text = "Enter a command: "
 
         elif prev_command == "find-note":
-            print(
-                find_note(
-                    user_input,
-                    notes,
-                )
-            )
+            find_note(user_input, notes)
             tmp = None
             prev_command = None
             input_text = "Enter a command: "
 
         elif prev_command == "find-note-by-title":
-            print(
-                find_note_by_title(
-                    user_input,
-                    notes,
-                )
-            )
+            find_note_by_title(user_input, notes)
             tmp = None
             prev_command = None
             input_text = "Enter a command: "
 
         elif prev_command == "find-notes-by-tag":
-            print(
-                find_note_tag(
-                    user_input,
-                    notes,
-                )
-            )
+            find_note_tag(user_input, notes)
             tmp = None
             prev_command = None
             input_text = "Enter a command: "
