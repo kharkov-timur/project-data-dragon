@@ -16,6 +16,7 @@ from contacts.commands import (
     change_tag_by_name,
     find_contacts_by_tag,
     remove_tag,
+    remove_contact
 )
 from notes.notes_commands import (
     add_note_text,
@@ -66,7 +67,10 @@ def main():
 
         elif command == "add-contact":
             print(add_contact(args, book))
-
+            
+        elif command == 'remove-contact':
+            print(remove_contact(args, book))
+            
         elif command == "change-contact":
             print(change_contact(book))
 
