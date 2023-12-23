@@ -301,9 +301,11 @@ def set_email(args, book):
     if len(args) != 2:
         raise ValueError("Current command expects 2 arguments: name and email")
     name, email = args
+
     if not re.fullmatch(r"^\S+@\S+\.\S+$", email):
         raise ValueError("Please enter valid email")
     record = book.find(name)
+
     if not record:
         raise ValueError("Contact not found.")
     record.set_email(email, book)
