@@ -30,9 +30,8 @@ class Record:
                 return p
         return None
 
-    def add_birthday(self, birthday, book):
+    def add_birthday(self, birthday):
         self.birthday = Birthday(birthday)
-        book.save_records_to_file()
 
     def find_phone_index(self, phone):
         for index, p in enumerate(self.phones):

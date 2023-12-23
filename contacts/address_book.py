@@ -63,11 +63,11 @@ class AddressBook(UserDict):
 
     def show_contacts_table(self, filter_tag=None):
         console = Console()
-        table = Table(show_header=True, header_style="bold magenta")
+        table = Table(title="CONTACTS", show_header=True, header_style="bold magenta")
 
         table.add_column("Name", style="dim")
         table.add_column("Phones", style="dim")
-        table.add_column("Birthday", style="dim", width=10)
+        table.add_column("Birthday", style="dim")
         table.add_column("Email", style="dim")
         table.add_column("Address", style="dim")
         table.add_column("Tags", style="dim")
@@ -111,7 +111,7 @@ class AddressBook(UserDict):
                     for phone_number in record_data["phones"]:
                         record.add_phone(record.name, phone_number)
                     if record_data.get("birthday"):
-                        record.add_birthday(record_data["birthday"], self)
+                        record.add_birthday(record_data["birthday"])
                     record.email = (
                         record_data["email"] if record_data["email"] else None
                     )

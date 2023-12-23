@@ -33,7 +33,7 @@ def add_contact(args, book):
 
         if len(args) == 3:
             birthday = args[2]
-            record.add_birthday(birthday, book)
+            record.add_birthday(birthday)
 
         book.add_record(record)
         book.save_records_to_file()
@@ -152,8 +152,7 @@ def find_phone(args, book):
 def show_all(book):
     if len(book.records) == 0:
         return "There are no contacts in the list."
-    address_book = AddressBook()
-    return address_book.show_contacts_table()
+    return book.show_contacts_table()
 
 
 @input_error
@@ -164,7 +163,8 @@ def add_birthday(args, book):
     record = book.find(name)
     if not record:
         raise ValueError("Contact not found.")
-    record.add_birthday(birthday, book)
+    record.add_birthday(birthday)
+    book.save_records_to_file()
     return "Birthday added."
 
 
