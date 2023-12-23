@@ -1,6 +1,5 @@
 import re
 from contacts.record import Record
-from contacts.address_book import AddressBook
 
 
 def input_error(func):
@@ -17,7 +16,7 @@ def input_error(func):
 def add_contact(args, book):
     if len(args) not in [2, 3]:
         raise ValueError(
-            "Add command expects 2 or 3 arguments: name, phone, and optionally birthday."
+            "Add command expects 2 or 3 arguments: |name| |phone| |birthday| - optional"
         )
 
     name, phone = args[:2]
@@ -26,7 +25,7 @@ def add_contact(args, book):
     if existing_record:
         existing_record.add_phone(name, phone)
         book.save_records_to_file()
-        return f"Phone number {phone} added to {name} contact."
+        return f"Phone number {phone} added to '{name}' contact"
     else:
         record = Record(name)
         record.add_phone(name, phone)
@@ -37,13 +36,13 @@ def add_contact(args, book):
 
         book.add_record(record)
         book.save_records_to_file()
-        return "Contact added."
+        return "Contact added"
 
 
 @input_error
 def remove_contact(args, book):
     if len(args) != 1:
-        raise ValueError("Remove-contact command expects 1 argument: name.")
+        raise ValueError("Remove-contact command expects 1 argument: |name|")
 
     (name,) = args
     record = book.find(name)
@@ -51,9 +50,9 @@ def remove_contact(args, book):
     if record:
         book.remove_record(name)
         book.save_records_to_file()
-        return f"Contact {name} removed."
+        return f"Contact '{name}' removed"
     else:
-        return f"Contact with name {name} not found."
+        return f"Contact with name '{name}' not found"
 
 
 @input_error
@@ -67,7 +66,7 @@ def change_contact(book):
     phones = record.phones_list()
 
     if not phones:
-        return "No phone numbers available for change."
+        return "No phone numbers available for change"
 
     print(f"Phone numbers:")
     for idx, phone in enumerate(phones, start=1):
@@ -78,33 +77,33 @@ def change_contact(book):
             position = int(input("Enter the position of the phone number to change: "))
 
             if position < 1 or position > len(phones):
-                print("Invalid position, please try again.")
+                print("Invalid position, please try again")
                 continue
 
             new_phone = input("Enter the new phone number: ")
             record.edit_phone(phones[position - 1].value, new_phone)
             return "Contact updated."
         except ValueError:
-            print("Invalid input, please enter a valid number.")
+            print("Invalid input, please enter a valid number")
         except IndexError:
-            print("Invalid position, please try again.")
+            print("Invalid position, please try again")
 
 
 @input_error
 def remove_phone(args, book):
     if len(args) != 1:
-        raise ValueError("Remove command expects argument name.")
+        raise ValueError("Remove command expects argument name")
 
     name = args[0]
     record = book.find(name)
 
     if not record:
-        return "Contact not found."
+        return "Contact not found"
 
     phones = record.phones_list()
 
     if not phones:
-        return "No phone numbers to remove."
+        return "No phone numbers to remove"
 
     print("Phone numbers:")
     for idx, phone in enumerate(phones, start=1):
@@ -113,7 +112,7 @@ def remove_phone(args, book):
     while True:
         try:
             position = input(
-                "Enter position of phone number to remove (or 'exit' to cancel): "
+                "Enter position of phone number to remove (or 'exit/close' to cancel): "
             )
 
             if position.lower() in ["exit", "close"]:
@@ -122,7 +121,7 @@ def remove_phone(args, book):
             position = int(position) - 1
 
             if position < 0 or position >= len(phones):
-                print("Invalid position. Please try again.")
+                print("Invalid position, please try again")
                 continue
 
             phone_to_remove = phones[position].value
@@ -131,47 +130,47 @@ def remove_phone(args, book):
             return f"Phone {phone_to_remove} removed."
 
         except ValueError:
-            print("Please enter a valid number.")
+            print("Please enter a valid number")
 
 
 @input_error
 def find_phone(args, book):
     if len(args) != 1:
-        raise ValueError("Phone command expects 1 argument: name.")
+        raise ValueError("Phone command expects 1 argument: |name|")
 
     (name,) = args
     record = book.find(name)
 
     if record:
-        return ", ".join(phone.value for phone in record.phones)
+        return print(", ".join(phone.value for phone in record.phones))
     else:
-        return "Contact not found."
+        return print("Contact not found")
 
 
 @input_error
 def show_all(book):
     if len(book.records) == 0:
-        return "There are no contacts in the list."
+        return print("There are no contacts in the list")
     return book.show_contacts_table()
 
 
 @input_error
 def add_birthday(args, book):
     if len(args) != 2:
-        raise ValueError("Add-birthday command expects 2 arguments: name and birthday.")
+        raise ValueError("Add-birthday command expects 2 arguments: |name| |birthday|")
     name, birthday = args
     record = book.find(name)
     if not record:
-        raise ValueError("Contact not found.")
+        raise ValueError("Contact not found")
     record.add_birthday(birthday)
     book.save_records_to_file()
-    return "Birthday added."
+    return "Birthday added"
 
 
 @input_error
 def find_birthday(args, book):
     if len(args) != 1:
-        raise ValueError("Show-birthday command expects 1 argument: name.")
+        raise ValueError("Show-birthday command expects 1 argument: |name|")
 
     (name,) = args
     record = book.find(name)
@@ -179,7 +178,7 @@ def find_birthday(args, book):
     if record and record.birthday:
         return record.birthday.value
     else:
-        return "Birthday not found or contact not found."
+        return "Birthday not found or contact not found"
 
 
 @input_error
@@ -190,13 +189,13 @@ def birthdays(book):
     for day, names in birthdays.items():
         if names:
             result += f"{day}: {', '.join(names)}\n"
-    return result if result else "No birthdays in the next week."
+    return result if result else "No birthdays in the next week"
 
 
 @input_error
 def add_address(args, book):
     if len(args) < 2:
-        raise ValueError("Add-address command expects 2 arguments: name and address.")
+        raise ValueError("Add-address command expects 2 arguments: |name| |address|")
     name = args[0]
     address = " ".join(args[1:])
     record = book.find(name)
@@ -208,7 +207,7 @@ def add_address(args, book):
 def change_address(args, book):
     if len(args) < 2:
         raise ValueError(
-            "Change-address command expects 2 arguments: name and new address."
+            "Change-address command expects 2 arguments: |name| |new address|"
         )
 
     name = args[0]
@@ -216,11 +215,9 @@ def change_address(args, book):
     record = book.find(name)
 
     if not record:
-        raise ValueError("Contact not found.")
+        raise ValueError("Contact not found")
 
-    old_address = (
-        record.address.value if record.address else " Unknown data of address."
-    )
+    old_address = record.address.value if record.address else " Unknown data of address"
     record.add_address(new_address, book)
     book.save_records_to_file()
 
@@ -230,9 +227,13 @@ def change_address(args, book):
 @input_error
 def add_tag(args, book):
     if len(args) != 2:
-        raise ValueError("Add-tag have to be with 2 argument: [name] [tag] ")
+        raise ValueError("Add-tag have to be with 2 argument: |name| |tag|")
     name, tag = args
     record = book.find(name)
+
+    if record is None:
+        return f"No contact found with name: {name}"
+
     record.add_tag(tag, book)
     return f'Added tag: "{tag}" for contact: {name}'
 
@@ -241,7 +242,7 @@ def add_tag(args, book):
 def change_tag_by_name(args, book):
     if len(args) != 3:
         raise ValueError(
-            "Change-tag command expects 3 arguments: name, old_tag, and new_tag."
+            "Change-tag command expects 3 arguments: |name| |old_tag| |new_tag|"
         )
 
     name, old_tag, new_tag = args
@@ -254,33 +255,33 @@ def change_tag_by_name(args, book):
         except ValueError as e:
             return f"Error: {e}"
     else:
-        return f"Contact with name {name} not found."
+        return f"Contact with name {name} not found"
 
 
 @input_error
 def find_contacts_by_tag(args, book):
     try:
         if len(args) != 1:
-            raise ValueError("Find-contacts-by-tag command expects 1 argument: tag.")
+            raise ValueError("Find-contacts-by-tag command expects 1 argument: |tag|")
 
         tag_to_find = args[0]
         matching_contacts = [
-            name for name, record in book.records.items() if tag_to_find in record.tag
+            name for name, record in book.records.items() if tag_to_find in record.tags
         ]
 
         if matching_contacts:
             return book.show_contacts_table(filter_tag=tag_to_find)
         else:
-            return f"No contacts found with tag '{tag_to_find}'."
+            return print(f"No contacts found with tag '{tag_to_find}'")
 
     except Exception as e:
-        return f"Error: {e}"
+        return print(f"Error: {e}")
 
 
 @input_error
 def remove_tag(args, book):
     if len(args) != 2:
-        raise ValueError("Remove-tag command expects 2 arguments: name and tag.")
+        raise ValueError("Remove-tag command expects 2 arguments: |name| |tag|")
 
     name, removed_tag = args
     record = book.find(name)
@@ -293,18 +294,18 @@ def remove_tag(args, book):
         else:
             return f"Tag: '{removed_tag}' not found in contact: {name}"
     else:
-        return f"Contact with name {name} not found."
+        return f"Contact with name {name} not found"
 
 
 @input_error
 def set_email(args, book):
     if len(args) != 2:
-        raise ValueError("Current command expects 2 arguments: name and email")
+        raise ValueError("Current command expects 2 arguments: |name| |email|")
     name, email = args
     if not re.fullmatch(r"^\S+@\S+\.\S+$", email):
         raise ValueError("Please enter valid email")
     record = book.find(name)
     if not record:
-        raise ValueError("Contact not found.")
+        raise ValueError("Contact not found")
     record.set_email(email, book)
-    return "Contact updated."
+    return "Contact updated"

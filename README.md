@@ -9,23 +9,23 @@ The application allows you to create a personalized contact and note list
 
 Contacts can be added with the following information:
 * name
-* phone number
-* date of birth
+* phone numbers
+* birthday
 * email
 * address
 * tags
 
 Notes can be added with the following information:
+* author
 * title
 * text
-* author
 * tags
 
 ---
 
-The added contacts will be saved to the `contacts.json` file.
+The added contacts will be saved to the `storage/contacts.json`.
 
-Added notes will be saved to the `notes.json` file.
+Added notes will be saved to the `storage/notes.json`.
 
 ---
 The application has the following functionality:

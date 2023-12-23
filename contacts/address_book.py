@@ -3,7 +3,7 @@ from rich.table import Table
 from pathlib import Path
 import json
 from collections import UserDict
-from datetime import datetime
+from datetime import datetime, timedelta
 from copy import deepcopy
 from contacts.record import Record
 from contacts.fields import Address
@@ -40,11 +40,12 @@ class AddressBook(UserDict):
 
     def get_birthdays_per_week(self):
         today = datetime.today().date()
+        end_of_week = today + timedelta(days=7)
         next_week_birthdays_by_weekday = {
             day: [] for day in self.WEEK_DAYS_BY_NUMBERS.values()
         }
 
-        for name, record in self.data.items():
+        for name, record in self.records.items():
             if record.birthday:
                 birthday = datetime.strptime(record.birthday.value, "%d.%m.%Y").date()
                 birthday_this_year = birthday.replace(year=today.year)
@@ -52,11 +53,14 @@ class AddressBook(UserDict):
                 if birthday_this_year < today:
                     birthday_this_year = birthday_this_year.replace(year=today.year + 1)
 
-                delta_days = (birthday_this_year - today).days
-
-                if delta_days < 7:
+                if today <= birthday_this_year <= end_of_week:
                     birthday_week_day = birthday_this_year.weekday()
-                    weekday_name = self.WEEK_DAYS_BY_NUMBERS[birthday_week_day]
+
+                    if birthday_week_day in [5, 6]:
+                        weekday_name = "Monday"
+                    else:
+                        weekday_name = self.WEEK_DAYS_BY_NUMBERS[birthday_week_day]
+
                     next_week_birthdays_by_weekday[weekday_name].append(name)
 
         return next_week_birthdays_by_weekday
@@ -73,14 +77,14 @@ class AddressBook(UserDict):
         table.add_column("Tags", style="dim")
 
         for name, record in self.records.items():
-            if filter_tag and filter_tag not in record.tag:
+            if filter_tag and filter_tag not in record.tags:
                 continue
 
             phones = ", ".join([phone.value for phone in record.phones])
             birthday = record.birthday.value if record.birthday else "N/A"
             email = record.email if record.email else "N/A"
             address = record.address.value if record.address else "N/A"
-            tags = ", ".join(record.tag)
+            tags = ", ".join(record.tags)
 
             table.add_row(name, phones, birthday, email, address, tags)
 
@@ -95,7 +99,7 @@ class AddressBook(UserDict):
                 "birthday": record.birthday.value if record.birthday else None,
                 "email": record.email if record.email else None,
                 "address": record.address.value if record.address else None,
-                "tag": record.tag,
+                "tags": record.tags,
             }
             records_list.append(record_data)
 
@@ -120,7 +124,7 @@ class AddressBook(UserDict):
                         if record_data["address"]
                         else None
                     )
-                    record.tag = record_data["tag"] if record_data["tag"] else []
+                    record.tags = record_data["tags"] if record_data["tags"] else []
                     self.records[record_data["name"]] = record
 
     def __deepcopy__(self, memo):
