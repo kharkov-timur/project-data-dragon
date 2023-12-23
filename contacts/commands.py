@@ -92,7 +92,7 @@ def change_contact(book):
 @input_error
 def remove_phone(args, book):
     if len(args) != 1:
-        raise ValueError("Remove command expects argument name")
+        raise ValueError("Remove command expects argument |name|")
 
     name = args[0]
     record = book.find(name)
