@@ -10,7 +10,7 @@ def add_note_text(text: str, title: str, author: str, notes: NotesBook):
             author,
         )
     )
-    return "Note added. You also can add tags to the note using the command add-tag-to-note"
+    return "Note added"
 
 
 def show_all_notes(notes):
@@ -24,29 +24,29 @@ def add_tag_to_note(title: str, tag: str, notes: NotesBook):
     res = notes.find(title)
     if res:
         res.add_tag(tag)
-        return f"Tag {tag} added to {title}"
+        return f"Tag '{tag}' added to '{title}'"
 
 
 def find_note(author: str, notes: NotesBook):
     if not any(note.author == author for note in notes.data.values()):
-        return f"No notes with author '{author}'"
+        return print(f"No notes with author '{author}'")
 
     notes.show_notes_table(filter_author=author)
 
 
 def find_note_by_title(title: str, notes: NotesBook):
     if title not in notes.data:
-        return f"Note with title '{title}' not found."
+        return print(f"Note with title '{title}' not found.")
 
     notes.show_notes_table(filter_title=title)
 
 
 def remove_note(title: str, notes: NotesBook):
     if not notes.find(title):
-        return f"Note with title {title} not found."
+        return f"Note with title '{title}' not found."
     else:
         notes.remove(title)
-        return f"Note with title {title} removed"
+        return f"Note with title '{title}' removed"
 
 
 def change_note_title(new_title: str, old_title: str, notes: NotesBook):
@@ -62,7 +62,7 @@ def change_note_title(new_title: str, old_title: str, notes: NotesBook):
             tags,
         )
     )
-    return f"Title changed from {old_title} to {new_title}"
+    return f"Title changed from '{old_title}' to '{new_title}'"
 
 
 def change_note_text(title: str, new_text: str, notes: NotesBook):
@@ -71,19 +71,19 @@ def change_note_text(title: str, new_text: str, notes: NotesBook):
     tags = old_note.get_tags()
     notes.remove(title)
     notes.add_record(Note(title, new_text, old_note.author, tags))
-    return f"Text for {title} changed from {old_text} to {new_text}"
+    return f"Text for '{title}' changed from '{old_text}' to '{new_text}'"
 
 
 def add_note_tag(tag: str, title: str, notes: NotesBook):
     note = notes.find(title)
     text = note.get_text()
     if tag in note.tags:
-        return f"Tag {tag} already added for {title}"
+        return f"Tag '{tag}' already added for '{title}'"
     else:
         note.add_tag(tag)
         notes.remove(title)
         notes.add_record(Note(title, text, note.author, note.tags))
-        return f"Tag {tag} added for {title}"
+        return f"Tag '{tag}' added for '{title}'"
 
 
 def remove_note_tag(tag: str, title: str, notes: NotesBook):
@@ -95,9 +95,9 @@ def remove_note_tag(tag: str, title: str, notes: NotesBook):
         tags.remove(tag)
         notes.remove(title)
         notes.add_record(Note(title, old_text, old_note.author, tags))
-        return f"Tag {tag} removed from {title} note"
+        return f"Tag '{tag}' removed from '{title}' note"
     else:
-        return f"No tag {tag} in {title}"
+        return f"No tag '{tag}' in '{title}'"
 
 
 def change_note_author(author: str, title: str, notes: NotesBook):
@@ -105,13 +105,13 @@ def change_note_author(author: str, title: str, notes: NotesBook):
     text = note.get_text()
     tags = note.get_tags()
     notes.add_record(Note(title, text, author, tags))
-    return f"Author {author} added for {title}"
+    return f"Author '{author}' added for '{title}'"
 
 
 def find_note_tag(tag: str, notes: NotesBook):
     matching_notes = any(tag in note.get_tags() for note in notes.data.values())
 
     if not matching_notes:
-        return f"No notes with tag '{tag}'"
+        return print(f"No notes with tag '{tag}'")
 
     notes.show_notes_table(filter_tag=tag)
