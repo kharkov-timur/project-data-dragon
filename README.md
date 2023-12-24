@@ -36,7 +36,7 @@ General commands:
 
 Contacts commands:
 1. `add-contact [name] [phone] [birthday(optional)]` - add new contact
-2. `change-contact` - change contact number
+2. `change-phone` - change contact phone number
 3. `remove-contact [name]` - remove contact
 4. `remove-phone [name]` - remove contact phone
 5. `find-phone [name]` - show contact phone
