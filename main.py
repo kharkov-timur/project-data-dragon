@@ -78,7 +78,7 @@ def main():
         elif command == "remove-contact":
             print(remove_contact(args, book))
 
-        elif command == "change-contact":
+        elif command == "change-phone":
             print(change_contact(book))
 
         elif command == "remove-phone":

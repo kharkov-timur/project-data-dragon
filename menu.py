@@ -22,7 +22,7 @@ def create_contacts_menu_table():
     table.add_row(
         "add-contact", "|name| |phone| |birthday(optional)|", "Add a new contact"
     )
-    table.add_row("change-contact", "", "Change the phone number")
+    table.add_row("change-phone", "", "Change the phone number")
     table.add_row("remove-contact", "|name|", "Remove contact")
     table.add_row("remove-phone", "", "Remove a phone number")
     table.add_row(
