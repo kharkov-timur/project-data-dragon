@@ -19,7 +19,7 @@ from contacts.commands import (
     remove_tag,
     remove_contact,
 )
-from notes.notes_commands import (
+from notes.commands import (
     add_note_text,
     show_all_notes,
     remove_note,

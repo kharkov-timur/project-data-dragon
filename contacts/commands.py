@@ -1,5 +1,13 @@
 import re
+from prompt_toolkit import prompt
 from contacts.record import Record
+from custome_output import custom_print
+from prompt_toolkit.styles import Style
+import builtins
+
+builtins.print = custom_print
+
+style = Style.from_dict({"": "orange", "prompt": "ansipurple"})
 
 
 def input_error(func):
@@ -57,7 +65,7 @@ def remove_contact(args, book):
 
 @input_error
 def change_contact(book):
-    name = input("Enter the contact name: ")
+    name = prompt("Enter the contact name: ", style=style)
     record = book.find(name)
 
     if not record:
@@ -74,14 +82,19 @@ def change_contact(book):
 
     while True:
         try:
-            position = int(input("Enter the position of the phone number to change: "))
+            position = int(
+                prompt(
+                    "Enter the position of the phone number to change: ", style=style
+                )
+            )
 
             if position < 1 or position > len(phones):
                 print("Invalid position, please try again")
                 continue
 
-            new_phone = input("Enter the new phone number: ")
+            new_phone = prompt("Enter the new phone number: ", style=style)
             record.edit_phone(phones[position - 1].value, new_phone)
+            book.save_records_to_file()
             return "Contact updated."
         except ValueError:
             print("Invalid input, please enter a valid number")
@@ -111,8 +124,9 @@ def remove_phone(args, book):
 
     while True:
         try:
-            position = input(
-                "Enter position of phone number to remove (or 'exit/close' to cancel): "
+            position = prompt(
+                "Enter position of phone number to remove (or 'exit/close' to cancel): ",
+                style=style,
             )
 
             if position.lower() in ["exit", "close"]:

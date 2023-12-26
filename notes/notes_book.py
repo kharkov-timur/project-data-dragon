@@ -36,21 +36,30 @@ class NotesBook(UserDict):
         console = Console()
         table = Table(title="NOTES", show_header=True, header_style="bold magenta")
 
+        table.add_column("#", style="dim", width=5)
         table.add_column("Author", style="dim", width=12)
         table.add_column("Title", style="dim", width=20)
         table.add_column("Description", style="dim", width=30)
         table.add_column("Tags", style="dim", width=15)
+        table.add_column("Created", style="dim")
 
-        for note in self.data.values():
+        for index, note in enumerate(self.data.values(), start=1):
             if filter_tag and filter_tag not in note.get_tags():
-                continue  # Skip notes that don't match the tag filter
+                continue
             if filter_author and filter_author != note.author:
-                continue  # Skip notes that don't match the author filter
+                continue
             if filter_title and filter_title != note.get_title():
-                continue  # Skip notes that don't match the title filter
+                continue
 
-            tags = ", ".join(note.get_tags()) if note.get_tags() else "No Tags"
-            table.add_row(note.author, note.get_title(), note.get_text(), tags)
+            tags = ", ".join(note.get_tags()) if note.get_tags() else "N/A"
+            table.add_row(
+                str(index),
+                note.author,
+                note.get_title(),
+                note.get_text(),
+                tags,
+                note.created_at,
+            )
 
         console.print(table)
 
@@ -62,6 +71,7 @@ class NotesBook(UserDict):
                     "title": note.get_title(),
                     "text": note.get_text(),
                     "tags": note.get_tags(),
+                    "created_at": note.created_at,
                 }
                 for note in self.data.values()
             ]
@@ -77,6 +87,7 @@ class NotesBook(UserDict):
                         description=note_data["text"],
                         author=note_data["author"],
                         tags=note_data["tags"],
+                        created_at=note_data["created_at"],
                     )
                     self.data[note.get_title()] = note
 
