@@ -69,6 +69,7 @@ class AddressBook(UserDict):
         console = Console()
         table = Table(title="CONTACTS", show_header=True, header_style="bold magenta")
 
+        table.add_column("#", style="dim")
         table.add_column("Name", style="dim")
         table.add_column("Phones", style="dim")
         table.add_column("Birthday", style="dim")
@@ -76,7 +77,7 @@ class AddressBook(UserDict):
         table.add_column("Address", style="dim")
         table.add_column("Tags", style="dim")
 
-        for name, record in self.records.items():
+        for index, (name, record) in enumerate(self.records.items(), start=1):
             if filter_tag and filter_tag not in record.tags:
                 continue
 
@@ -86,7 +87,7 @@ class AddressBook(UserDict):
             address = record.address.value if record.address else "N/A"
             tags = ", ".join(record.tags)
 
-            table.add_row(name, phones, birthday, email, address, tags)
+            table.add_row(str(index), name, phones, birthday, email, address, tags)
 
         console.print(table)
 
